@@ -46,17 +46,18 @@
         app:layout_constraintStart_toStartOf="@+id/power_img"
         app:layout_constraintTop_toTopOf="@+id/power_img" />
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/load_status"
-        android:layout_width="120dp"
-        android:layout_height="128dp"
+        android:layout_width="124dp"
+        android:layout_height="124dp"
         android:elevation="5dp"
-        android:indeterminateDrawable="@drawable/rotation"
+        android:src="@drawable/rotation_fast"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/powerButton"
         app:layout_constraintEnd_toEndOf="@+id/powerButton"
         app:layout_constraintStart_toStartOf="@+id/powerButton"
         app:layout_constraintTop_toTopOf="@+id/powerButton"
-        app:layout_constraintVertical_bias="0.18" />
+        app:layout_constraintVertical_bias="0.20" />
 
     <ImageView
         android:id="@+id/power_img"

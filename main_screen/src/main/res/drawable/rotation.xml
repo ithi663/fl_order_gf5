@@ -202,6 +202,85 @@
     </item>
 
 
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="10dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#0DFFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="12dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#0DFFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="14dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#0DFFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+
+
+
 
 
 </layer-list>

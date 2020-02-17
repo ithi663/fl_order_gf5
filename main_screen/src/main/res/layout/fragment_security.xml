@@ -56,12 +56,12 @@
         app:layout_constraintTop_toBottomOf="@+id/include11"
         app:layout_constraintVertical_bias="0.6" />
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/load_status"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+        android:layout_width="129dp"
+        android:layout_height="129dp"
         android:elevation="5dp"
-        android:indeterminateDrawable="@drawable/rotation"
+        android:src="@drawable/rotation_fast"
         app:layout_constraintBottom_toBottomOf="@+id/secureButton"
         app:layout_constraintEnd_toEndOf="@+id/secureButton"
         app:layout_constraintStart_toStartOf="@+id/secureButton"

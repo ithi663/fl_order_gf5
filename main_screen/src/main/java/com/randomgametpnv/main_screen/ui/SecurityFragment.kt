@@ -1,15 +1,16 @@
 package com.randomgametpnv.main_screen.ui
 
-import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.randomgametpnv.base.initTopHeader
+import com.randomgametpnv.base.setInvisible
+import com.randomgametpnv.base.setVisible
 import com.randomgametpnv.main_screen.R
+import com.randomgametpnv.main_screen.ui.utils.fastRotation
+import com.randomgametpnv.main_screen.ui.utils.slowRotation
 import kotlinx.android.synthetic.main.fragment_security.*
 
 class SecurityFragment : BaseModuleFragment() {
@@ -39,19 +40,19 @@ class SecurityFragment : BaseModuleFragment() {
         strSecureOn = resources.getString(R.string.secure_on)
 
         defVal = false
-
-
-        load_status.visibility = View.INVISIBLE
+        initButton()
 
         secureButton.setOnTouchListener { view, motionEvent ->
 
             when(motionEvent.action) {
 
                 MotionEvent.ACTION_UP -> {
-                    load_status.visibility = View.INVISIBLE
+                    load_status.fastRotation()
+                    load_status.setInvisible()
                 }
                 MotionEvent.ACTION_DOWN -> {
-                    load_status.visibility = View.VISIBLE
+                    load_status.slowRotation()
+                    load_status.setVisible()
                 }
             }
 
@@ -61,9 +62,20 @@ class SecurityFragment : BaseModuleFragment() {
 
         secureButton.setOnLongClickListener {
 
-            //changeStatus()
+            changeStatus()
             true
         }
+    }
+
+
+    fun initButton() {
+
+        secureButton.setImageResource(R.drawable.secure_off_non)
+        load_status.fastRotation()
+        load_status.clearAnimation()
+        load_status.setInvisible()
+        secure_text.setInvisible()
+        secure_img.setInvisible()
     }
 
 
@@ -71,20 +83,28 @@ class SecurityFragment : BaseModuleFragment() {
 
         if (!defVal) {
 
+            secure_text.setVisible()
+            secure_img.setVisible()
+
             defVal = true
             secure_text.text = strSecureOn
             secure_text.setTextColor(resources.getColor(R.color.text_green))
             secure_img.setImageResource(R.drawable.secure_off_on_img)
-            load_status.visibility = View.INVISIBLE
             secureButton.setImageResource(R.drawable.secure_on_img)
+            load_status.clearAnimation()
+            load_status.setInvisible()
         } else {
+
+            secure_text.setVisible()
+            secure_img.setVisible()
 
             defVal = false
             secure_text.text = strSecureOff
             secure_text.setTextColor(resources.getColor(R.color.text_read))
             secure_img.setImageResource(R.drawable.secure_top_off_img)
-            load_status.visibility = View.INVISIBLE
             secureButton.setImageResource(R.drawable.securu_off_img)
+            load_status.clearAnimation()
+            load_status.setInvisible()
         }
 
 
