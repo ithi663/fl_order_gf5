@@ -1,5 +1,8 @@
 package com.randomgametpnv.main_screen.ui
 
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -58,7 +61,7 @@ class SecurityFragment : BaseModuleFragment() {
 
         secureButton.setOnLongClickListener {
 
-            changeStatus()
+            //changeStatus()
             true
         }
     }

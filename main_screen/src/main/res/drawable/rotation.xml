@@ -1,24 +1,207 @@
-<rotate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="-90"
-    android:pivotX="50%"
-    android:pivotY="50%"
-    android:toDegrees="270">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="1dp"
+                android:useLevel="false">
 
 
-    <shape
-        android:shape="ring"
-        android:thickness="5dp"
-        android:useLevel="false">
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#FFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
 
 
-        <gradient
-            android:centerY="0.5"
-            android:endColor="#ffca4c"
-            android:startColor="#00FFBE00"
-            android:type="sweep"
-            android:useLevel="false" />
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="2dp"
+                android:useLevel="false">
 
-    </shape>
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#80FFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="3dp"
+                android:useLevel="false">
 
 
-</rotate>
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#40FFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="4dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#33FFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="5dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#33FFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="6dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#1AFFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="7dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#1AFFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+    <item android:gravity="center">
+        <rotate
+            android:fromDegrees="-90"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thickness="8dp"
+                android:useLevel="false">
+
+
+                <gradient
+                    android:centerY="0.5"
+                    android:endColor="#0DFFCA4C"
+                    android:startColor="#00FFBE00"
+                    android:type="sweep"
+                    android:useLevel="false" />
+
+            </shape>
+
+        </rotate>
+
+    </item>
+
+
+
+
+</layer-list>
