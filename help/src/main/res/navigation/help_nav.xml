@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/help_nav"
+    app:startDestination="@id/helpFragment">
+
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.randomgametpnv.help.ui.HelpFragment"
+        android:label="fragment_help"
+        tools:layout="@layout/fragment_help" >
+        <action
+            android:id="@+id/action_helpFragment_to_votingFragment"
+            app:destination="@id/votingFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_billsFragment"
+            app:destination="@id/billsFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_jornalFragment"
+            app:destination="@id/jornalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/votingFragment"
+        android:name="com.randomgametpnv.help.ui.VotingFragment"
+        android:label="fragment_voting"
+        tools:layout="@layout/fragment_voting" />
+    <fragment
+        android:id="@+id/billsFragment"
+        android:name="com.randomgametpnv.help.ui.BillsFragment"
+        android:label="fragment_bills"
+        tools:layout="@layout/fragment_bills" />
+    <fragment
+        android:id="@+id/jornalFragment"
+        android:name="com.randomgametpnv.help.ui.JournalFragment"
+        android:label="fragment_jornal"
+        tools:layout="@layout/fragment_jornal" />
+</navigation>

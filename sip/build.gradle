@@ -1,0 +1,12 @@
+apply from: "../common_android_module.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+dependencies {
+
+    implementation project(":base")
+    implementation project(":common_value_objects")
+    implementation project(":navigation")
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+}

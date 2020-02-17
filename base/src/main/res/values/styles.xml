@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/header_transparent</item>
+        <item name="colorPrimaryDark">@color/header_transparent</item>
+        <item name="colorAccent">@color/header_transparent</item>
+
+
+
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <!--<item name="android:background">@drawable/launch_img</item>-->
+<!--        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>-->
+    </style>
+
+
+
+</resources>

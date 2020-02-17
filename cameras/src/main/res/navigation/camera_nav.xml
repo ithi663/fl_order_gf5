@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/camera_nav"
+    app:startDestination="@id/cameraGroupsFragment">
+
+    <fragment
+        android:id="@+id/cameraGroupsFragment"
+        android:name="com.randomgametpnv.cameras.ui.CameraGroupsFragment"
+        android:label="fragment_camera_groups"
+        tools:layout="@layout/fragment_camera_groups" >
+        <action
+            android:id="@+id/action_cameraGroupsFragment_to_allCamerasFragment"
+            app:destination="@id/allCamerasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allCamerasFragment"
+        android:name="com.randomgametpnv.cameras.ui.AllCamerasFragment"
+        android:label="fragment_all_cameras"
+        tools:layout="@layout/fragment_all_cameras" >
+        <action
+            android:id="@+id/action_allCamerasFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.randomgametpnv.cameras.ui.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <argument
+            android:name="cameraId"
+            app:argType="string" />
+    </fragment>
+</navigation>

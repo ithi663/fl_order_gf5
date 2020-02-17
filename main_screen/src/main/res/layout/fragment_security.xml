@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout7"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SecurityFragment" >
+
+    <include
+        android:id="@+id/include11"
+        layout="@layout/main_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/secure_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="@string/secure_off"
+        android:textAllCaps="true"
+        android:textColor="@color/text_read"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/secure_img" />
+
+    <ImageView
+        android:id="@+id/secure_img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/secure_top_off_img"
+        app:layout_constraintBottom_toTopOf="@+id/secureButton"
+        app:layout_constraintEnd_toEndOf="@+id/secure_text"
+        app:layout_constraintStart_toStartOf="@+id/secure_text"
+        app:layout_constraintTop_toBottomOf="@+id/include11" />
+
+    <ImageView
+        android:id="@+id/secureButton"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/securu_off_img"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include11"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <ProgressBar
+        android:id="@+id/load_status"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:elevation="5dp"
+        android:indeterminateDrawable="@drawable/rotation"
+        app:layout_constraintBottom_toBottomOf="@+id/secureButton"
+        app:layout_constraintEnd_toEndOf="@+id/secureButton"
+        app:layout_constraintStart_toStartOf="@+id/secureButton"
+        app:layout_constraintTop_toTopOf="@+id/secureButton"
+        app:layout_constraintVertical_bias="0.18" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

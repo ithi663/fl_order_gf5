@@ -1,0 +1,10 @@
+<resources>
+
+
+
+    <string name="loginTex"> Логин</string>
+    <string name="passText"> Пароль</string>
+    <string name="connectError">отсутствует интернет-соединение</string>
+    <string name="invalidLogin">неправильный логин или пароль</string>
+
+</resources>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ControlFragment" >
+
+    <include
+        android:id="@+id/include9"
+        layout="@layout/main_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerButton"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/power_off_img"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include9"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <TextView
+        android:id="@+id/power_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="@string/power_on"
+        android:textAllCaps="true"
+        android:textColor="@color/text_grey"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/power_img"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="@+id/power_img"
+        app:layout_constraintTop_toTopOf="@+id/power_img" />
+
+    <ProgressBar
+        android:id="@+id/load_status"
+        android:layout_width="120dp"
+        android:layout_height="128dp"
+        android:elevation="5dp"
+        android:indeterminateDrawable="@drawable/rotation"
+        app:layout_constraintBottom_toBottomOf="@+id/powerButton"
+        app:layout_constraintEnd_toEndOf="@+id/powerButton"
+        app:layout_constraintStart_toStartOf="@+id/powerButton"
+        app:layout_constraintTop_toTopOf="@+id/powerButton"
+        app:layout_constraintVertical_bias="0.18" />
+
+    <ImageView
+        android:id="@+id/power_img"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/power_top_off_img"
+        app:layout_constraintBottom_toTopOf="@+id/powerButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include9"
+        app:layout_constraintVertical_bias="0.5" />
+</androidx.constraintlayout.widget.ConstraintLayout>

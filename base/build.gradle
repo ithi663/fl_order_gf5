@@ -1,0 +1,10 @@
+apply from: "../common_android_module.gradle"
+
+
+dependencies {
+
+    implementation project(":database")
+    implementation project(":common_value_objects")
+    implementation glide
+    kapt glide_compiler
+}

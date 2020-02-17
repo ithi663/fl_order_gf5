@@ -1,0 +1,12 @@
+apply from: "../common_android_module.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+dependencies {
+
+    implementation project(":base")
+    implementation project(":common_value_objects")
+    implementation project(":navigation")
+    implementation project(":database")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+}

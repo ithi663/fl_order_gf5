@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Order80202</string>
+
+    <string name="get_the_password_in">Пароль получите в УК</string>
+    <string name="auth">Авторизация</string>
+    <string name="voting">Голосование</string>
+    <string name="services">Услуги</string>
+    <string name="bills">Счета и Платежи</string>
+    <string name="help">Помощь</string>
+    <string name="security">Охрана</string>
+    <string name="counters">Счетчики</string>
+    <string name="journal">Журнал событий</string>
+    <string name="video">Видеонаблюдение</string>
+    <string name="power_management">Упр. нагрузками</string>
+    <string name="cold_water">Холодная вода</string>
+    <string name="hot_water">Горячая вода</string>
+    <string name="el_power">Электричество</string>
+    <string name="heating">Отопление</string>
+    <string name="cleaning">Клининг</string>
+    <string name="electrician">Электрик</string>
+    <string name="plumber">Сантехник</string>
+    <string name="delivery">Доставка продуктов</string>
+    <string name="taxi_call">Вызвать такси</string>
+    <string name="cr_call">Позвонить консьержу</string>
+
+    <string name="resource_text">Данные \n о потребляемых \n ресурсах</string>
+</resources>

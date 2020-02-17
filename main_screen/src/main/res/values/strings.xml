@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="resource_text">Данные \n о потребляемых \n ресурсах</string>
+    <string name="secure_on">Квартира\nпод охраной </string>
+    <string name="secure_off">Квартира\nне охраняется</string>
+    <string name="power_off">все выключено</string>
+    <string name="power_on">все ключено</string>
+
+</resources>

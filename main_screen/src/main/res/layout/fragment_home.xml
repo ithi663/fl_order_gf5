@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.HomeFragment">
+
+    <View
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/header"
+        android:background="@color/header_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/camera_button_background"
+        app:layout_constraintBottom_toTopOf="@+id/controlButton"
+        app:layout_constraintEnd_toStartOf="@+id/securityButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    <Button
+        android:id="@+id/securityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/security_button_background"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cameraButton"
+        app:layout_constraintTop_toTopOf="@+id/cameraButton" />
+
+    <Button
+        android:id="@+id/controlButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/control_button_background"
+        app:layout_constraintBottom_toTopOf="@+id/servicesButton"
+        app:layout_constraintEnd_toStartOf="@+id/countersButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraButton" />
+
+    <Button
+        android:id="@+id/countersButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/counters_button_background"
+        app:layout_constraintBottom_toBottomOf="@+id/controlButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/controlButton"
+        app:layout_constraintTop_toTopOf="@+id/controlButton" />
+
+    <Button
+        android:id="@+id/servicesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/services_button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/helpButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/controlButton" />
+
+    <Button
+        android:id="@+id/helpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/help_button_background"
+        app:layout_constraintBottom_toBottomOf="@+id/servicesButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/servicesButton"
+        app:layout_constraintTop_toTopOf="@+id/servicesButton" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="19 C"
+        android:textColor="@color/white_text"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/header"
+        app:layout_constraintStart_toStartOf="@+id/header"
+        app:layout_constraintTop_toTopOf="@+id/header" />
+
+    <!--    <View
+            android:id="@+id/view1"
+            android:layout_width="98dp"
+            android:layout_height="100dp"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="154dp" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            tools:layout_editor_absoluteX="205dp"
+            tools:layout_editor_absoluteY="154dp" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="305dp" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            tools:layout_editor_absoluteX="205dp"
+            tools:layout_editor_absoluteY="305dp" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            tools:layout_editor_absoluteX="205dp"
+            tools:layout_editor_absoluteY="305dp" />
+
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            tools:layout_editor_absoluteX="205dp"
+            tools:layout_editor_absoluteY="305dp" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,44 @@
+apply from: "../common_android_plugins.gradle"
+
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    kotlinOptions { jvmTarget = "1.8" }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+
+apply from: "../android_module_core_dependencies.gradle"
+
+dependencies {
+
+    implementation navigation_dependencies.values()
+    implementation koin_dependencies.values()
+    implementation retrofit_dependencies.values()
+    implementation view_model
+    implementation lifecycle_extensions
+    implementation live_data
+    implementation lifecycle_runtime
+    implementation coroutines_dependencies.values()
+    implementation glide
+    kapt glide_compiler
+}
