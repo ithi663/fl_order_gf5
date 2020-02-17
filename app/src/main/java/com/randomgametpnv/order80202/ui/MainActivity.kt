@@ -90,32 +90,4 @@ class MainActivity : AppCompatActivity() {
         servicesButton_b.setOnClickListener { navController.navigate(R.id.services_nav, null,  bottomNavOptions) }
         helpButton_b.setOnClickListener { navController.navigate(R.id.help_nav, null,  bottomNavOptions) }
     }
-
-
-
-    fun checkPerm() {
-
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.USE_SIP)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    android.Manifest.permission.USE_SIP)) {
-
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(android.Manifest.permission.USE_SIP),
-                    125)
-            } else {
-
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(android.Manifest.permission.USE_SIP),
-                    125)
-
-            }
-        } else {
-
-        }
-    }
-
-
 }
