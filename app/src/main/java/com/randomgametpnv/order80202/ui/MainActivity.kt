@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun initInitBottomNavigation() {
 
         cameraButton_b.setOnClickListener { navController.navigate(R.id.camera_nav, null,  bottomNavOptions) }
