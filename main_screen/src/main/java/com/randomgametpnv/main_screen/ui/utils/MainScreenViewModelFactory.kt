@@ -1,4 +1,4 @@
-package com.randomgametpnv.main_screen.ui
+package com.randomgametpnv.main_screen.ui.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

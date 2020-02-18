@@ -1,12 +1,12 @@
 package com.randomgametpnv.main_screen.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.randomgametpnv.main_screen.R
+import com.randomgametpnv.main_screen.ui.base.BaseModuleFragment
 import com.randomgametpnv.navigation.*
 import kotlinx.android.synthetic.main.fragment_home.*
 

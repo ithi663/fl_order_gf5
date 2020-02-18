@@ -10,6 +10,7 @@ import com.randomgametpnv.base.setInvisible
 import com.randomgametpnv.base.setVisible
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.main_screen.R
+import com.randomgametpnv.main_screen.ui.base.BaseControllerFragment
 import com.randomgametpnv.main_screen.ui.utils.ControllerType
 import com.randomgametpnv.main_screen.ui.utils.Status
 import com.randomgametpnv.main_screen.ui.utils.fastRotation

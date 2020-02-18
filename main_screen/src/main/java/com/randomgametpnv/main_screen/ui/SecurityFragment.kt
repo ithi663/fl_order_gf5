@@ -1,9 +1,7 @@
 package com.randomgametpnv.main_screen.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -12,10 +10,10 @@ import com.randomgametpnv.base.setInvisible
 import com.randomgametpnv.base.setVisible
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.main_screen.R
+import com.randomgametpnv.main_screen.ui.base.BaseControllerFragment
 import com.randomgametpnv.main_screen.ui.utils.ControllerType
 import com.randomgametpnv.main_screen.ui.utils.Status
 import com.randomgametpnv.main_screen.ui.utils.fastRotation
-import com.randomgametpnv.main_screen.ui.utils.slowRotation
 import kotlinx.android.synthetic.main.fragment_security.*
 
 class SecurityFragment : BaseControllerFragment() {
