@@ -1,4 +1,4 @@
-package com.randomgametpnv.help.ui
+package com.randomgametpnv.help.ui.util
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

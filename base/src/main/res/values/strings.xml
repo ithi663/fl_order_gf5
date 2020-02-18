@@ -26,5 +26,6 @@
     <string name="resource_text">Данные \n о потребляемых \n ресурсах</string>
 
     <string name="connectError">отсутствует интернет-соединение</string>
+    <string name="responseError">ошибка получения данных</string>
     <string name="invalidLogin">неправильный логин или пароль</string>
 </resources>

@@ -1,21 +1,21 @@
 package com.randomgametpnv.help.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.randomgametpnv.base.initTopHeader
+import com.randomgametpnv.base.setInvisible
+import com.randomgametpnv.base.setVisible
+import com.randomgametpnv.base.showErrorMessage
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.help.R
 import com.randomgametpnv.help.ui.adapter.JournalRvAdapter
-import com.randomgametpnv.help.entities.JournalUiData
+import com.randomgametpnv.help.ui.base.BaseModuleFragment
 import kotlinx.android.synthetic.main.fragment_jornal.*
-import org.koin.android.ext.android.inject
 
 
 class JournalFragment : BaseModuleFragment() {
@@ -41,15 +41,27 @@ class JournalFragment : BaseModuleFragment() {
 
         initRV()
 
-        viewModel.journalResult.observe(this.viewLifecycleOwner, Observer {
+
+        viewModel.getJournalFromApi().observe(this.viewLifecycleOwner, Observer {
 
             when(it) {
                 is ApiCall.Success -> {
+                    progressBar4.setInvisible()
                     journalRvAdapter?.submitList(it.data)
+                }
+                is ApiCall.ConnectException -> {
+                    progressBar4.setInvisible()
+                    showErrorMessage(it)
+                }
+                is ApiCall.ResponseError -> {
+                    progressBar4.setInvisible()
+                    showErrorMessage(it)
+                }
+                is ApiCall.Loading -> {
+                    progressBar4.setVisible()
                 }
             }
         })
-        viewModel.getJournalFromApi()
     }
 
 

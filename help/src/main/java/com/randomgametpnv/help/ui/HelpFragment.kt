@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.help.R
+import com.randomgametpnv.help.ui.util.HelpViewModelFactory
 import kotlinx.android.synthetic.main.fragment_help.*
 import org.koin.android.ext.android.inject
 
