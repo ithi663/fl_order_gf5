@@ -17,3 +17,4 @@ fun View.slowRotation() {
 
 
 enum class Status {LOADING, LOADED}
+enum class ControllerType {SECURITY, POWER}

@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/controlFragment"
-        android:name="com.randomgametpnv.main_screen.ui.ControlFragment"
+        android:name="com.randomgametpnv.main_screen.ui.PowerControlFragment"
         android:label="ControlFragment" />
     <fragment
         android:id="@+id/securityFragment"

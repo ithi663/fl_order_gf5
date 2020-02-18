@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ControlFragment" >
+    tools:context=".ui.PowerControlFragment" >
 
     <include
         android:id="@+id/include9"
@@ -48,16 +48,16 @@
 
     <ImageView
         android:id="@+id/load_status"
-        android:layout_width="124dp"
-        android:layout_height="124dp"
+        android:layout_width="127dp"
+        android:layout_height="127dp"
         android:elevation="5dp"
         android:src="@drawable/rotation_fast"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/powerButton"
         app:layout_constraintEnd_toEndOf="@+id/powerButton"
         app:layout_constraintStart_toStartOf="@+id/powerButton"
         app:layout_constraintTop_toTopOf="@+id/powerButton"
-        app:layout_constraintVertical_bias="0.20" />
+        app:layout_constraintVertical_bias="0.18" />
 
     <ImageView
         android:id="@+id/power_img"
