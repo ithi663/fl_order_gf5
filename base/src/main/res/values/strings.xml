@@ -24,4 +24,7 @@
     <string name="cr_call">Позвонить консьержу</string>
 
     <string name="resource_text">Данные \n о потребляемых \n ресурсах</string>
+
+    <string name="connectError">отсутствует интернет-соединение</string>
+    <string name="invalidLogin">неправильный логин или пароль</string>
 </resources>

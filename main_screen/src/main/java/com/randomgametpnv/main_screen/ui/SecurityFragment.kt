@@ -71,7 +71,7 @@ class SecurityFragment : BaseControllerFragment() {
 
     private fun initState() {
 
-        secureButton.setImageResource(R.drawable.secure_off_non)
+        secureButton.setImageResource(R.drawable.secure_non)
         loadStatus.fastRotation()
         loadStatus.clearAnimation()
         loadStatus.setInvisible()

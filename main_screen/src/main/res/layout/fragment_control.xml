@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="@+id/powerButton"
         app:layout_constraintStart_toStartOf="@+id/powerButton"
         app:layout_constraintTop_toTopOf="@+id/powerButton"
-        app:layout_constraintVertical_bias="0.18" />
+        app:layout_constraintVertical_bias="0.17" />
 
     <ImageView
         android:id="@+id/power_img"

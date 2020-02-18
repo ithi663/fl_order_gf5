@@ -1,7 +1,6 @@
 package com.randomgametpnv.counters.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.counters.R
 import com.randomgametpnv.counters.entities.TypeOfEnergy
+import com.randomgametpnv.counters.ui.base.BaseModuleFragment
 import kotlinx.android.synthetic.main.fragment_counters.*
 
 
@@ -19,7 +19,6 @@ class CountersFragment : BaseModuleFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_counters, container, false)
     }
 
@@ -31,32 +30,17 @@ class CountersFragment : BaseModuleFragment() {
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
 
-        coldWaterButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_countersFragment_to_graphFragment,
-                bundleOf("typeOfEnergy" to TypeOfEnergy.COLD_WATER.name)
-            )
-        }
 
-        gvsButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_countersFragment_to_graphFragment,
-                bundleOf("typeOfEnergy" to TypeOfEnergy.HOT_WATER.name)
-            )
-        }
+        coldWaterButton.setOnClickListener { navigate(TypeOfEnergy.COLD_WATER) }
+        gvsButton.setOnClickListener {navigate(TypeOfEnergy.HOT_WATER)}
+        el_power.setOnClickListener {navigate(TypeOfEnergy.EL_POWER)}
+        heatButton.setOnClickListener {navigate(TypeOfEnergy.HEATING)}
+    }
 
-        el_power.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_countersFragment_to_graphFragment,
-                bundleOf("typeOfEnergy" to TypeOfEnergy.EL_POWER.name)
-            )
-        }
-
-        heatButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_countersFragment_to_graphFragment,
-                bundleOf("typeOfEnergy" to TypeOfEnergy.HEATING.name)
-            )
-        }
+    private fun navigate(typeOfEnergy: TypeOfEnergy) {
+        val action =
+            CountersFragmentDirections
+                .actionCountersFragmentToGraphFragment(typeOfEnergy.name)
+        findNavController().navigate(action)
     }
 }

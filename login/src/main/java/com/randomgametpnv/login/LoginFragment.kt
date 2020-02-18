@@ -36,10 +36,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         viewModel.result.observe(this.viewLifecycleOwner, Observer {
-
 
             when (it) {
                 is ApiCall.ResponseError -> {

@@ -1,19 +1,23 @@
 package com.randomgametpnv.counters.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.counters.R
 import com.randomgametpnv.counters.entities.TypeOfEnergy
+import com.randomgametpnv.counters.ui.base.BaseModuleFragment
 import kotlinx.android.synthetic.main.fragment_graph.*
 
 
 class GraphFragment : BaseModuleFragment() {
+
+    val graphFragmentArgs: GraphFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,10 +33,7 @@ class GraphFragment : BaseModuleFragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
-        val typeOfEnergy = arguments?.getString("typeOfEnergy", null)?: throw Throwable("typeOfEnergy is null")
-
-        val topText = when(typeOfEnergy) {
+        val topText = when(graphFragmentArgs.typeOfEnergy) {
             TypeOfEnergy.COLD_WATER.name -> {resources.getText(com.randomgametpnv.base.R.string.cold_water).toString()}
             TypeOfEnergy.HOT_WATER.name -> {resources.getText(com.randomgametpnv.base.R.string.hot_water).toString()}
             TypeOfEnergy.EL_POWER.name -> {resources.getText(com.randomgametpnv.base.R.string.el_power).toString()}
@@ -41,6 +42,12 @@ class GraphFragment : BaseModuleFragment() {
 
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
+
+        viewModel.counterRes.observe(this.viewLifecycleOwner, Observer {
+
+        })
+
+        viewModel.getCounterData()
 
 
         val start = LineGraphSeries<DataPoint> (arrayOf(

@@ -1,35 +1,28 @@
 package com.randomgametpnv.cameras.ui.adapter
 
-import android.content.ContentResolver
 import android.net.Uri
-import android.os.Build
-import android.util.Log
-import android.util.Size
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.randomgametpnv.cameras.R
-import com.randomgametpnv.cameras.entities.CameraData
-import com.randomgametpnv.cameras.ggets
-import kotlinx.android.synthetic.main.all_cameras_rv_item.view.*
+import com.randomgametpnv.cameras.entities.CameraDataUi
 
 class AllCamerasRvAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CameraData>() {
+    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CameraDataUi>() {
 
-        override fun areItemsTheSame(oldItem: CameraData, newItem: CameraData): Boolean {
+        override fun areItemsTheSame(oldItem: CameraDataUi, newItem: CameraDataUi): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CameraData, newItem: CameraData): Boolean {
+        override fun areContentsTheSame(oldItem: CameraDataUi, newItem: CameraDataUi): Boolean {
             return oldItem.imageUpdateTime == newItem.imageUpdateTime
         }
 
@@ -61,7 +54,7 @@ class AllCamerasRvAdapter(private val interaction: Interaction? = null) :
         return differ.currentList.size
     }
 
-    fun submitList(list: List<CameraData>) {
+    fun submitList(list: List<CameraDataUi>) {
         differ.submitList(list)
     }
 
@@ -73,7 +66,7 @@ class AllCamerasRvAdapter(private val interaction: Interaction? = null) :
 
         val img: ImageView = itemView.findViewById(R.id.imageView)
 
-        fun bind(item: CameraData) = with(itemView) {
+        fun bind(item: CameraDataUi) = with(itemView) {
 
 
             //imageView.setImageResource(R.drawable.dvor)
@@ -92,7 +85,7 @@ class AllCamerasRvAdapter(private val interaction: Interaction? = null) :
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: CameraData)
+        fun onItemSelected(position: Int, item: CameraDataUi)
     }
 }
 

@@ -21,6 +21,6 @@
         tools:layout="@layout/fragment_graph" >
         <argument
             android:name="typeOfEnergy"
-            app:argType="string" />
+            app:argType="com.randomgametpnv.counters.entities.TypeOfEnergy" />
     </fragment>
 </navigation>

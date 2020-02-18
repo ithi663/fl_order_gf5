@@ -1,6 +1,6 @@
 package com.randomgametpnv.cameras.di
 
-import com.randomgametpnv.cameras.ui.CamerasViewModelFactory
+import com.randomgametpnv.cameras.ui.utils.CamerasViewModelFactory
 import com.randomgametpnv.cameras.net.CameraApi
 import com.randomgametpnv.cameras.net.CameraNet
 import com.randomgametpnv.cameras.net.NetImpl
