@@ -23,7 +23,7 @@ class AllCamerasRvAdapter(private val interaction: Interaction? = null) :
         }
 
         override fun areContentsTheSame(oldItem: CameraDataUi, newItem: CameraDataUi): Boolean {
-            return oldItem.imageUpdateTime == newItem.imageUpdateTime
+            return oldItem.videoUrl == newItem.videoUrl
         }
 
     }

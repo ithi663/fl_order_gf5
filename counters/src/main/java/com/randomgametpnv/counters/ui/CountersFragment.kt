@@ -40,7 +40,7 @@ class CountersFragment : BaseModuleFragment() {
     private fun navigate(typeOfEnergy: TypeOfEnergy) {
         val action =
             CountersFragmentDirections
-                .actionCountersFragmentToGraphFragment(typeOfEnergy.name)
+                .actionCountersFragmentToGraphFragment(typeOfEnergy)
         findNavController().navigate(action)
     }
 }

@@ -34,9 +34,9 @@ class GraphFragment : BaseModuleFragment() {
 
 
         val topText = when(graphFragmentArgs.typeOfEnergy) {
-            TypeOfEnergy.COLD_WATER.name -> {resources.getText(com.randomgametpnv.base.R.string.cold_water).toString()}
-            TypeOfEnergy.HOT_WATER.name -> {resources.getText(com.randomgametpnv.base.R.string.hot_water).toString()}
-            TypeOfEnergy.EL_POWER.name -> {resources.getText(com.randomgametpnv.base.R.string.el_power).toString()}
+            TypeOfEnergy.COLD_WATER -> {resources.getText(com.randomgametpnv.base.R.string.cold_water).toString()}
+            TypeOfEnergy.HOT_WATER -> {resources.getText(com.randomgametpnv.base.R.string.hot_water).toString()}
+            TypeOfEnergy.EL_POWER -> {resources.getText(com.randomgametpnv.base.R.string.el_power).toString()}
             else -> {resources.getText(com.randomgametpnv.base.R.string.heating).toString()}
         }
 
