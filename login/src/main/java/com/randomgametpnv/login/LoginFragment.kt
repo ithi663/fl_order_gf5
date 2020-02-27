@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.randomgametpnv.base.MainViewModel
-import com.randomgametpnv.base.initTopHeader
-import com.randomgametpnv.base.setInvisible
-import com.randomgametpnv.base.setVisible
+import com.randomgametpnv.base.*
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.login.entities.LoginEntities
 import com.randomgametpnv.navigation.actionLoginFragmentToHomeFragmentId
@@ -92,6 +89,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun showMessage(text: String) {
-        Snackbar.make(view!!, text, Snackbar.LENGTH_LONG).show()
+        val snack = Snackbar.make(view!!, text, Snackbar.LENGTH_LONG)
+        customSnackView(snack)
+        snack.show()
     }
 }

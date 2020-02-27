@@ -35,22 +35,24 @@ class MainActivity : AppCompatActivity() {
         //window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         navController = findNavController(R.id.fragment)
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
-            when(destination.id) {
-
-                R.id.loginFragment -> {showLogin()}
-                R.id.homeFragment -> {showHome()}
-                else -> {showMain()}
+            when (destination.id) {
+                R.id.loginFragment -> {
+                    showLogin()
+                }
+                R.id.homeFragment -> {
+                    showHome()
+                }
+                else -> {
+                    showMain()
+                }
 
             }
         }
 
         initInitBottomNavigation()
-
     }
-
 
     private fun showLogin() {
         main_layout.setBackgroundResource(R.drawable.launch_img)
@@ -83,10 +85,40 @@ class MainActivity : AppCompatActivity() {
 
     private fun initInitBottomNavigation() {
 
-        cameraButton_b.setOnClickListener { navController.navigate(R.id.camera_nav, null,  bottomNavOptions) }
-        securityButton_b.setOnClickListener { navController.navigate(R.id.securityFragment, null,  bottomNavOptions) }
-        controlButton_b.setOnClickListener { navController.navigate(R.id.controlFragment, null,  bottomNavOptions) }
-        servicesButton_b.setOnClickListener { navController.navigate(R.id.services_nav, null,  bottomNavOptions) }
-        helpButton_b.setOnClickListener { navController.navigate(R.id.help_nav, null,  bottomNavOptions) }
+        cameraButton_b.setOnClickListener {
+            navController.navigate(
+                R.id.camera_nav,
+                null,
+                bottomNavOptions
+            )
+        }
+        securityButton_b.setOnClickListener {
+            navController.navigate(
+                R.id.securityFragment,
+                null,
+                bottomNavOptions
+            )
+        }
+        controlButton_b.setOnClickListener {
+            navController.navigate(
+                R.id.controlFragment,
+                null,
+                bottomNavOptions
+            )
+        }
+        servicesButton_b.setOnClickListener {
+            navController.navigate(
+                R.id.services_nav,
+                null,
+                bottomNavOptions
+            )
+        }
+        helpButton_b.setOnClickListener {
+            navController.navigate(
+                R.id.help_nav,
+                null,
+                bottomNavOptions
+            )
+        }
     }
 }

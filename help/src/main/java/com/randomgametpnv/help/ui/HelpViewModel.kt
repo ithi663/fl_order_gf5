@@ -18,13 +18,6 @@ import kotlinx.coroutines.withContext
 class HelpViewModel(private val database: AppDatabase, private val helpNet: HelpNet) : ViewModel() {
 
 
-/*    private val _billsResult = MutableLiveData<ApiCall<BillsUiData>>()
-    val billsResult: LiveData<ApiCall<BillsUiData>> = _billsResult*/
-
-/*    private val _journalResult = MutableLiveData<ApiCall<List<JournalUiData>>>()
-    val journalResult: LiveData<ApiCall<List<JournalUiData>>> = _journalResult*/
-
-
     fun getBillsFromApi() = liveData(Dispatchers.IO) {
         val userData = database.userDao().getUser()
         helpNet

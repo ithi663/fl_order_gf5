@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.base.setInvisible
 import com.randomgametpnv.base.setVisible
+import com.randomgametpnv.base.showErrorMessage
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.main_screen.R
 import com.randomgametpnv.main_screen.ui.base.BaseControllerFragment
@@ -49,6 +50,7 @@ class PowerControlFragment : BaseControllerFragment() {
                 is ApiCall.ResponseError -> {
                     requestStatus = Status.LOADED
                     loadWithError()
+                    showErrorMessage(it)
                 }
                 is ApiCall.Loading -> {
                     requestStatus = Status.LOADING
@@ -57,6 +59,7 @@ class PowerControlFragment : BaseControllerFragment() {
                 is ApiCall.ConnectException -> {
                     requestStatus = Status.LOADED
                     loadWithError()
+                    showErrorMessage(it)
                 }
                 is ApiCall.Success -> {
                     requestStatus = Status.LOADED

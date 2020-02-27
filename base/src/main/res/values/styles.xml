@@ -16,12 +16,7 @@
     </style>
 
     <style name="AppTheme.Launcher">
-        <!--<item name="android:background">@drawable/launch_img</item>-->
-<!--        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>-->
+        <item name="android:windowBackground">@drawable/launch_img</item>
     </style>
-
-
 
 </resources>
