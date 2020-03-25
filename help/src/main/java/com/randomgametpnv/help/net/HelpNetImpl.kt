@@ -2,39 +2,64 @@ package com.randomgametpnv.help.net
 
 import com.randomgametpnv.base.toApiResponseError
 import com.randomgametpnv.common_value_objects.ApiCall
+import com.randomgametpnv.help.entities.JournalUiData
+import com.randomgametpnv.help.entities.Vote
 import com.randomgametpnv.help.entities.toUiData
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class HelpNetImpl(private val api: HelpApi) : HelpNet {
 
-    override suspend fun makeBillsApiCall(header: String, flat_id: Int) = flow {
+    override suspend fun billsApiCall(header: String) = flow {
 
+        emit(ApiCall.Loading)
         try {
-            val data = ApiCall.Success(api.callBills(header, flat_id).toUiData())
+            val data = ApiCall.Success(api.callBills(header))
             emit(data)
         } catch (e: Throwable) {
             emit(e.toApiResponseError())
         }
     }
 
-    override suspend fun makeCallJournalApiCall(header: String, flat_id: Int) = flow {
+    override suspend fun journalApiCall(header: String) = flow {
 
+        emit(ApiCall.Loading)
         try {
-            val data = api.callJournal(header, flat_id).map { it.toUiData() }
+            val data = api.callJournal(header)
             emit(ApiCall.Success(data))
         } catch (e: Throwable) {
             emit(e.toApiResponseError())
         }
     }
 
-    override suspend fun makeVoteApiCall(
-        header: String,
-        skip: Int,
-        limit: Int
-    ) = flow {
+    override suspend fun alarmsApiCall(header: String) = flow {
+
+        emit(ApiCall.Loading)
         try {
-            val data = api.callVotes(header, skip, limit).map { /*it.toUiData()*/ }
-            emit(ApiCall.ResponseError(0, null))
+            val data = api.callAlarms(header)
+            emit(ApiCall.Success(data))
+        } catch (e: Throwable) {
+            emit(e.toApiResponseError())
+        }
+    }
+
+    override suspend fun votesApiCall(header: String) = flow {
+
+        emit(ApiCall.Loading)
+        try {
+            val data = api.callVotes(header)
+            emit(ApiCall.Success(data))
+        } catch (e: Throwable) {
+            emit(e.toApiResponseError())
+        }
+    }
+
+    override suspend fun voteApiCall(header: String, voteId: Int) = flow {
+
+        //emit(ApiCall.Loading)
+        try {
+            val data = api.callVote(header, voteId)
+            emit(data)
         } catch (e: Throwable) {
             //emit(e.toApiResponseError())
         }

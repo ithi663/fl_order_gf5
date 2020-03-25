@@ -1,13 +1,14 @@
 package com.randomgametpnv.help.net
 
 import com.randomgametpnv.common_value_objects.ApiCall
-import com.randomgametpnv.help.entities.BillsUiData
-import com.randomgametpnv.help.entities.JournalUiData
+import com.randomgametpnv.help.entities.*
 import kotlinx.coroutines.flow.Flow
 
 interface HelpNet {
 
-    suspend fun makeBillsApiCall(header: String, flat_id: Int): Flow<ApiCall<BillsUiData>>
-    suspend fun makeCallJournalApiCall(header: String, flat_id: Int): Flow<ApiCall<List<JournalUiData>>>
-    suspend fun makeVoteApiCall(header: String, skip: Int, limit: Int): Flow<ApiCall<List<JournalUiData>>>
+    suspend fun billsApiCall(header: String): Flow<ApiCall<List<Bills>>>
+    suspend fun journalApiCall(header: String): Flow<ApiCall<List<Journal>>>
+    suspend fun alarmsApiCall(header: String): Flow<ApiCall<List<Alarms>>>
+    suspend fun votesApiCall(header: String): Flow<ApiCall<List<Vote>>>
+    suspend fun voteApiCall(header: String, voteId: Int): Flow<Vote>
 }

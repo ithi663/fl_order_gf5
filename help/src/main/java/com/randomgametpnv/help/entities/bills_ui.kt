@@ -1,8 +1,7 @@
 package com.randomgametpnv.help.entities
 
-fun Journal.toUiData(): JournalUiData {
-    return JournalUiData(this.id.toString(), this.message, this.stamp)
-}
+data class BillsUiData(val toPay: Int?, val debt: Int?, val amount: Int?)
+
 
 fun List<Bills>.toUiData(): BillsUiData {
     val _p0 = this.firstOrNull()
