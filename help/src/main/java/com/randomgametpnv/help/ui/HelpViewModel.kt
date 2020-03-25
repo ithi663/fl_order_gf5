@@ -1,5 +1,6 @@
 package com.randomgametpnv.help.ui
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.randomgametpnv.base.createRequestHeader
 import com.randomgametpnv.database.AppDatabase
@@ -11,6 +12,12 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class HelpViewModel(private val database: AppDatabase, private val helpNet: HelpNet) : ViewModel() {
 

@@ -1,6 +1,7 @@
 package com.randomgametpnv.help.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,8 @@ class BillsFragment : BaseModuleFragment() {
 
 
         viewModel.getBillsFromApi().observe(this.viewLifecycleOwner, Observer {
+
+            Log.d("QWERTGH", "!!!!  $it")
 
             when(it) {
                 is ApiCall.Loading -> {

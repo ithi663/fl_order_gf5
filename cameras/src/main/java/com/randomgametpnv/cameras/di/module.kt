@@ -10,8 +10,8 @@ import retrofit2.Retrofit
 
 val camerasModule = module {
 
-    single<CameraApi>(named("camerasApiCall")) { get<Retrofit>(named("retrofit")).create(CameraApi::class.java) }
-    single<CameraNet>(named("camerasNet")) { NetImpl(get(named("camerasApiCall"))) }
+    factory<CameraApi>(named("camerasApiCall")) { get<Retrofit>(named("retrofit")).create(CameraApi::class.java) }
+    factory<CameraNet>(named("camerasNet")) { NetImpl(get(named("camerasApiCall"))) }
 
     factory {
         CamerasViewModelFactory(

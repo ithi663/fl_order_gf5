@@ -14,7 +14,7 @@ class HelpNetImpl(private val api: HelpApi) : HelpNet {
 
         emit(ApiCall.Loading)
         try {
-            val data = ApiCall.Success(api.callBills(header))
+            val data = ApiCall.Success(api.callBills(header).toUiData())
             emit(data)
         } catch (e: Throwable) {
             emit(e.toApiResponseError())
@@ -25,7 +25,7 @@ class HelpNetImpl(private val api: HelpApi) : HelpNet {
 
         emit(ApiCall.Loading)
         try {
-            val data = api.callJournal(header)
+            val data = api.callJournal(header).map { it.toUiData() }
             emit(ApiCall.Success(data))
         } catch (e: Throwable) {
             emit(e.toApiResponseError())
@@ -36,7 +36,7 @@ class HelpNetImpl(private val api: HelpApi) : HelpNet {
 
         emit(ApiCall.Loading)
         try {
-            val data = api.callAlarms(header)
+            val data = api.callAlarms(header).map { it.toUiData() }
             emit(ApiCall.Success(data))
         } catch (e: Throwable) {
             emit(e.toApiResponseError())
