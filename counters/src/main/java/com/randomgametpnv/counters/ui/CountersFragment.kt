@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.counters.R
@@ -31,9 +30,9 @@ class CountersFragment : BaseModuleFragment() {
 
 
 
-        coldWaterButton.setOnClickListener { navigate(TypeOfEnergy.COLD_WATER) }
-        gvsButton.setOnClickListener {navigate(TypeOfEnergy.HOT_WATER)}
-        el_power.setOnClickListener {navigate(TypeOfEnergy.EL_POWER)}
+        coldWaterButton.setOnClickListener { navigate(TypeOfEnergy.coldwater) }
+        gvsButton.setOnClickListener {navigate(TypeOfEnergy.hotwater)}
+        el_power.setOnClickListener {navigate(TypeOfEnergy.electrical)}
         heatButton.setOnClickListener {navigate(TypeOfEnergy.HEATING)}
     }
 

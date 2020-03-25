@@ -18,10 +18,14 @@ import kotlinx.coroutines.withContext
 class HelpViewModel(private val database: AppDatabase, private val helpNet: HelpNet) : ViewModel() {
 
 
+    private val requestHeader = database.userDao().getUser().createRequestHeader()
+
     fun getBillsFromApi() = liveData(Dispatchers.IO) {
+
+        requestHeader?: return@liveData
         val userData = database.userDao().getUser()
         helpNet
-            .makeBillsApiCall(userData.createRequestHeader(), userData!!.id)
+            .makeBillsApiCall(requestHeader, userData!!.id)
             .collect {
                 withContext(Dispatchers.Main) {
                     emit(it)
@@ -30,9 +34,10 @@ class HelpViewModel(private val database: AppDatabase, private val helpNet: Help
     }
 
     fun getJournalFromApi() = liveData(Dispatchers.IO) {
+        requestHeader?: return@liveData
         val userData = database.userDao().getUser()
         helpNet
-            .makeCallJournalApiCall(userData.createRequestHeader(), userData!!.id)
+            .makeCallJournalApiCall(requestHeader, userData!!.id)
             .collect {
                 withContext(Dispatchers.Main) {
                     emit(it)

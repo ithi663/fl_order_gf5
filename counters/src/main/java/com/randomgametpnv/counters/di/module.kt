@@ -10,8 +10,8 @@ import retrofit2.Retrofit
 
 val countersModule = module {
 
-    single<CountersApi>(named("countersApiCall")) { get<Retrofit>(named("retrofit")).create(CountersApi::class.java) }
-    single<CountersNet>(named("countersNet")) { CountersNetImpl(get(named("countersApiCall"))) }
+    factory<CountersApi>(named("countersApiCall")) { get<Retrofit>(named("retrofit")).create(CountersApi::class.java) }
+    factory<CountersNet>(named("countersNet")) { CountersNetImpl(get(named("countersApiCall"))) }
 
     factory {
         CountersViewModelFactory(

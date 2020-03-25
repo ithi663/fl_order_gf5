@@ -16,8 +16,8 @@ fun Throwable.toApiResponseError(): ApiCall<Nothing> {
     }
 }
 
-fun UserData?.createRequestHeader(): String {
+fun UserData?.createRequestHeader(): String? {
 
-    this?: throw Throwable("User data is empty")
+    this?: return null
     return "${this.tokenType} ${this.accessToken}"
 }
