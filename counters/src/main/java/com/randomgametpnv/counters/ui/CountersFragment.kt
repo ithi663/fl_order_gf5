@@ -29,7 +29,6 @@ class CountersFragment : BaseModuleFragment() {
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
 
-
         coldWaterButton.setOnClickListener { navigate(TypeOfEnergy.coldwater) }
         gvsButton.setOnClickListener {navigate(TypeOfEnergy.hotwater)}
         el_power.setOnClickListener {navigate(TypeOfEnergy.electrical)}
