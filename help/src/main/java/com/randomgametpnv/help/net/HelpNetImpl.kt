@@ -2,9 +2,7 @@ package com.randomgametpnv.help.net
 
 import com.randomgametpnv.base.toApiResponseError
 import com.randomgametpnv.common_value_objects.ApiCall
-import com.randomgametpnv.help.entities.JournalUiData
 import com.randomgametpnv.help.entities.toUiData
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class HelpNetImpl(private val api: HelpApi) : HelpNet {
@@ -35,7 +33,7 @@ class HelpNetImpl(private val api: HelpApi) : HelpNet {
         limit: Int
     ) = flow {
         try {
-            val data = api.callVote(header, skip, limit).map { /*it.toUiData()*/ }
+            val data = api.callVotes(header, skip, limit).map { /*it.toUiData()*/ }
             emit(ApiCall.ResponseError(0, null))
         } catch (e: Throwable) {
             //emit(e.toApiResponseError())

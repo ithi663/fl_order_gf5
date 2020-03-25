@@ -1,6 +1,7 @@
 package com.randomgametpnv.counters.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.randomgametpnv.base.initTopHeader
+import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.counters.R
+import com.randomgametpnv.counters.entities.CounterDataUi
 import com.randomgametpnv.counters.entities.TypeOfEnergy
 import com.randomgametpnv.counters.ui.base.BaseModuleFragment
 import kotlinx.android.synthetic.main.fragment_graph.*
@@ -42,28 +45,18 @@ class GraphFragment : BaseModuleFragment() {
 
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
+        viewModel.getCounterData(graphFragmentArgs.typeOfEnergy).observe(this.viewLifecycleOwner, Observer {
 
-        viewModel.counterRes.observe(this.viewLifecycleOwner, Observer {
-
+            when(it) {
+                is ApiCall.Success -> {
+                    fillGraph(it.data)
+                }
+            }
         })
 
-        viewModel.getCounterData()
 
 
-        val start = LineGraphSeries<DataPoint> (arrayOf(
-            DataPoint(0.toDouble(),1.toDouble()),
-            DataPoint(1.toDouble(),6.toDouble()),
-            DataPoint(2.toDouble(),4.toDouble()),
-            DataPoint(3.toDouble(),9.toDouble()),
-            DataPoint(4.toDouble(),2.toDouble()),
-            DataPoint(5.toDouble(),2.toDouble()),
-            DataPoint(6.toDouble(),8.toDouble()),
-            DataPoint(7.toDouble(),9.toDouble()),
-            DataPoint(8.toDouble(),3.toDouble())
-        ))
-
-
-        val start2 = LineGraphSeries<DataPoint> (arrayOf(
+/*        val start2 = LineGraphSeries<DataPoint> (arrayOf(
             DataPoint(0.toDouble(),4.toDouble()),
             DataPoint(1.toDouble(),1.toDouble()),
             DataPoint(2.toDouble(),3.toDouble()),
@@ -73,13 +66,23 @@ class GraphFragment : BaseModuleFragment() {
             DataPoint(6.toDouble(),4.toDouble()),
             DataPoint(7.toDouble(),1.toDouble()),
             DataPoint(8.toDouble(),1.toDouble())
-        ))
+        ))*/
 
 
-        start.color = resources.getColor(R.color.dark_ripple)
-        start2.color = resources.getColor(R.color.yellow_text_color)
+        //start2.color = resources.getColor(R.color.yellow_text_color)
 
-        graph.addSeries(start)
-        graph.addSeries(start2)
+    }
+
+
+    private fun fillGraph(counterDataUi: CounterDataUi) {
+
+        var index = 0
+        val array = counterDataUi.date.map {
+            index +=1
+            DataPoint(index.toDouble(), it.value.toDouble())
+        }.toTypedArray()
+        val graphLine = LineGraphSeries(array)
+        graphLine.color = resources.getColor(R.color.dark_ripple)
+        graph.addSeries(graphLine)
     }
 }

@@ -5,12 +5,12 @@ import com.randomgametpnv.common_value_objects.ApiCall
 
 const val dayLimit = 30
 
-fun ApiData.toUiData(energy: TypeOfEnergy): CounterDataUi {
+fun List<CounterData>.toUiData(energy: TypeOfEnergy): CounterDataUi {
 
     var count = 0
     val list = mutableListOf<MeasurementDataUi>()
 
-    this.list.forEach {mList ->
+    this.forEach {mList ->
 
         mList.meterData?.let {mDate ->
             mDate.forEach {
@@ -25,7 +25,7 @@ fun ApiData.toUiData(energy: TypeOfEnergy): CounterDataUi {
 }
 
 
-fun ApiCall<ApiData>.toApiCallUiData(energy: TypeOfEnergy): ApiCall<CounterDataUi> {
+fun ApiCall<List<CounterData>>.toApiCallUiData(energy: TypeOfEnergy): ApiCall<CounterDataUi> {
     return when (this) {
         is ApiCall.Loading -> {ApiCall.Loading}
         is ApiCall.Success -> {ApiCall.Success(this.data.toUiData(energy))}

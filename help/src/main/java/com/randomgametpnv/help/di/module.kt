@@ -10,8 +10,8 @@ import retrofit2.Retrofit
 
 val helpModule = module {
 
-    single<HelpApi>(named("helpApiCall")) { get<Retrofit>(named("retrofit")).create(HelpApi::class.java) }
-    single<HelpNet>(named("helpNet")) { HelpNetImpl(get(named("helpApiCall"))) }
+    factory<HelpApi>(named("helpApiCall")) { get<Retrofit>(named("retrofit")).create(HelpApi::class.java) }
+    factory<HelpNet>(named("helpNet")) { HelpNetImpl(get(named("helpApiCall"))) }
 
     factory {
         HelpViewModelFactory(

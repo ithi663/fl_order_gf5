@@ -10,6 +10,7 @@ import com.randomgametpnv.counters.net.CountersNet
 import com.randomgametpnv.counters.net.CountersNetImpl
 import com.randomgametpnv.database.AppDatabase
 import com.randomgametpnv.database.UserData
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
@@ -18,16 +19,23 @@ import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.koin.ext.scope
 
-class CountersViewModel(database: AppDatabase, private val countersNet: CountersNet): ViewModel() {
+class CountersViewModel(database: AppDatabase, private val countersNet: CountersNet) : ViewModel() {
 
 
-    private val requestHeader = database.userDao().getUser().createRequestHeader()
+    private val requestHeader = CompletableDeferred<String?>()
+
+    init {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            requestHeader.complete(database.userDao().getUser().createRequestHeader())
+        }
+    }
 
     fun getCounterData(typeOfEnergy: TypeOfEnergy) = liveData {
 
-        requestHeader?: return@liveData
+        val header = requestHeader.await() ?: return@liveData
         countersNet
-            .getColdCater(requestHeader, typeOfEnergy)
+            .getColdCater(header, typeOfEnergy)
             .map {
                 it.toApiCallUiData(typeOfEnergy)
             }

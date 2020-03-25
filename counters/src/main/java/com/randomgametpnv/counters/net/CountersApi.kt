@@ -1,10 +1,10 @@
 package com.randomgametpnv.counters.net
 
-import com.randomgametpnv.counters.entities.ApiData
+import com.randomgametpnv.counters.entities.CounterData
 import retrofit2.http.*
 
 interface CountersApi {
 
-    @GET("client/my-counter/coldwater")
-    suspend fun callColdWaterCounter(@Header("Authorization") header: String): ApiData
+    @GET("client/my-counter/{energy}")
+    suspend fun callColdWaterCounter(@Header("Authorization") header: String, @Path("energy") energy: String): List<CounterData>
 }

@@ -13,9 +13,6 @@ data class FlatDetectorItem(@SerializedName("measure")
                             val value: Int = 0)
 
 
-
-data class ApiData(val list: List<CounterData>)
-
 data class CounterData(@SerializedName("meter_type_id")
                        val meterTypeId: Int = 0,
                        @SerializedName("stamp")
