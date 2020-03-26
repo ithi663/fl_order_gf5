@@ -1,12 +1,10 @@
 package com.randomgametpnv.help.net
 
-import com.randomgametpnv.help.entities.Alarms
-import com.randomgametpnv.help.entities.Bills
-import com.randomgametpnv.help.entities.Journal
-import com.randomgametpnv.help.entities.Vote
+import com.randomgametpnv.help.entities.*
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface HelpApi {
 
@@ -24,4 +22,12 @@ interface HelpApi {
 
     @GET("client/votes/{vote_id}")
     suspend fun callVote(@Header("Authorization") header: String, @Path("vote_id")voteId: Int): Vote
+
+    @GET("/api/v1/client/votes/{vote_id}/submit-variant")
+    suspend fun submitVariant(
+        @Header("Authorization") header: String,
+        @Path("vote_id")voteId: Int,
+        @Query("vote_id")vote_Id: Int,
+        @Query("variant_id")variant_Id: Int
+    ): VoteRespApi
 }

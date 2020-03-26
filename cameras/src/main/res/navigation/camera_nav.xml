@@ -3,17 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/camera_nav"
-    app:startDestination="@id/cameraGroupsFragment">
+    app:startDestination="@id/allCamerasFragment">
 
     <fragment
         android:id="@+id/cameraGroupsFragment"
         android:name="com.randomgametpnv.cameras.ui.CameraGroupsFragment"
         android:label="fragment_camera_groups"
-        tools:layout="@layout/fragment_camera_groups" >
-        <action
-            android:id="@+id/action_cameraGroupsFragment_to_allCamerasFragment"
-            app:destination="@id/allCamerasFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_camera_groups" />
     <fragment
         android:id="@+id/allCamerasFragment"
         android:name="com.randomgametpnv.cameras.ui.AllCamerasFragment"
@@ -22,9 +18,6 @@
         <action
             android:id="@+id/action_allCamerasFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
-        <argument
-            android:name="groupId"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"

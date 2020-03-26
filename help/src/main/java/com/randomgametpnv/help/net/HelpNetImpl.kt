@@ -4,6 +4,7 @@ import com.randomgametpnv.base.toApiResponseError
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.help.entities.JournalUiData
 import com.randomgametpnv.help.entities.Vote
+import com.randomgametpnv.help.entities.VoteRespApi
 import com.randomgametpnv.help.entities.toUiData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -56,12 +57,23 @@ class HelpNetImpl(private val api: HelpApi) : HelpNet {
 
     override suspend fun voteApiCall(header: String, voteId: Int) = flow {
 
-        //emit(ApiCall.Loading)
+        emit(ApiCall.Loading)
         try {
             val data = api.callVote(header, voteId)
-            emit(data)
+            emit(ApiCall.Success(data))
         } catch (e: Throwable) {
-            //emit(e.toApiResponseError())
+            emit(e.toApiResponseError())
+        }
+    }
+
+    override suspend fun submitVoteCall(header: String, voteId: Int, variantId: Int) = flow {
+
+        emit(ApiCall.Loading)
+        try {
+            val data = api.submitVariant(header, voteId, voteId, variantId)
+            emit(ApiCall.Success(data))
+        } catch (e: Throwable) {
+            emit(e.toApiResponseError())
         }
     }
 }

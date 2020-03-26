@@ -30,18 +30,18 @@ class CameraGroupsFragment : BaseModuleFragment() {
         val topText = resources.getText(com.randomgametpnv.base.R.string.video).toString()
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
-        button.setOnClickListener {navigate("1")}
+/*        button.setOnClickListener {navigate("1")}
         button2.setOnClickListener {navigate("1")}
         button3.setOnClickListener {navigate("1")}
         button4.setOnClickListener {navigate("1")}
         button5.setOnClickListener {navigate("1")}
-        button6.setOnClickListener {navigate("1")}
+        button6.setOnClickListener {navigate("1")}*/
     }
 
-    fun navigate(cameraGroup: String) {
+/*    fun navigate(cameraGroup: String) {
 
         val action
                 = CameraGroupsFragmentDirections.actionCameraGroupsFragmentToAllCamerasFragment(cameraGroup)
         findNavController().navigate(action)
-    }
+    }*/
 }

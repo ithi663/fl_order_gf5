@@ -69,16 +69,8 @@ class AllCamerasRvAdapter(private val interaction: Interaction? = null) :
         fun bind(item: CameraDataUi) = with(itemView) {
 
 
-            //imageView.setImageResource(R.drawable.dvor)
-
-            val requestOp = RequestOptions.frameOf(100)
-
-            val bb1 = Uri.parse("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov")
-
-            Glide.with(itemView.context).load(bb1).apply(requestOp).centerCrop().into(img)
-
+            img.setImageResource(R.drawable.vbn)
             itemView.setOnClickListener {
-
                 interaction?.onItemSelected(adapterPosition, item)
             }
         }

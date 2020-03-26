@@ -18,8 +18,7 @@ open class BaseModuleFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel =
-            navGraphViewModels<CamerasViewModel>(R.id.cameraGroupsFragment) { viewModelFactory }.value
+            navGraphViewModels<CamerasViewModel>(R.id.allCamerasFragment) { viewModelFactory }.value
     }
 }

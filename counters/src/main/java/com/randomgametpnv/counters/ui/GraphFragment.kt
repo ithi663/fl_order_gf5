@@ -10,6 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.randomgametpnv.base.initTopHeader
+import com.randomgametpnv.base.setInvisible
+import com.randomgametpnv.base.setVisible
+import com.randomgametpnv.base.showErrorMessage
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.counters.R
 import com.randomgametpnv.counters.entities.CounterDataUi
@@ -20,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_graph.*
 
 class GraphFragment : BaseModuleFragment() {
 
-    val graphFragmentArgs: GraphFragmentArgs by navArgs()
+    private val graphFragmentArgs: GraphFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +52,26 @@ class GraphFragment : BaseModuleFragment() {
 
             when(it) {
                 is ApiCall.Success -> {
+                    progressBar.setInvisible()
+                    graph.setVisible()
                     fillGraph(it.data)
+                }
+                is ApiCall.ConnectException -> {
+                    progressBar.setInvisible()
+                    graph.setVisible()
+                    showErrorMessage(it)
+                }
+                is ApiCall.ResponseError -> {
+                    graph.setVisible()
+                    progressBar.setInvisible()
+                    showErrorMessage(it)
+                }
+                is ApiCall.Loading -> {
+                    graph.setInvisible()
+                    progressBar.setVisible()
                 }
             }
         })
-
-
 
 /*        val start2 = LineGraphSeries<DataPoint> (arrayOf(
             DataPoint(0.toDouble(),4.toDouble()),
@@ -67,7 +84,6 @@ class GraphFragment : BaseModuleFragment() {
             DataPoint(7.toDouble(),1.toDouble()),
             DataPoint(8.toDouble(),1.toDouble())
         ))*/
-
 
         //start2.color = resources.getColor(R.color.yellow_text_color)
 
