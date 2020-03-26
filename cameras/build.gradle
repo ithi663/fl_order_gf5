@@ -4,11 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 
 dependencies {
 
-    
-
+    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
     implementation project(":base")
     implementation project(":common_value_objects")
     implementation project(":navigation")
     implementation project(":database")
-
 }

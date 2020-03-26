@@ -72,13 +72,13 @@ class HelpViewModel(private val database: AppDatabase, private val helpNet: Help
                 emit(it)
             }
     }
-
+/*
     fun submitVotes(voteId: Int, variantId: Int) = viewModelScope.launch {
-        val header = requestHeader.await() ?: return@liveData
+        val header = requestHeader.await() ?: return@
         helpNet.submitVoteCall(header, voteId, variantId)
             .flowOn(Dispatchers.IO)
             .collect {
                 emit(it)
             }
-    }
+    }*/
 }
