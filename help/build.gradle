@@ -8,4 +8,5 @@ dependencies {
     implementation project(":common_value_objects")
     implementation project(":navigation")
     implementation project(":database")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

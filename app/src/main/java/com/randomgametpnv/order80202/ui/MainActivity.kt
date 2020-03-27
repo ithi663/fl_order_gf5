@@ -1,11 +1,8 @@
 package com.randomgametpnv.order80202.ui
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -19,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
     private val bottomNavOptions: NavOptions =
         NavOptions
             .Builder()
@@ -47,7 +44,6 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     showMain()
                 }
-
             }
         }
 

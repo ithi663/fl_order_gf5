@@ -76,7 +76,7 @@ class VotingPageAdapter(private val viewModel: HelpViewModel) :
                         val voteVariantId: Int? = item.voteVariant?.get(p0)?.id
                         button.setOnClickListener {
                             voteVariantId?: return@setOnClickListener
-                            //viewModel.submitVotes(item.id, voteVariantId)
+                            viewModel.submitVotes(item.id, voteVariantId)
                         }
                         return view
                     }

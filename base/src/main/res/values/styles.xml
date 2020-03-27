@@ -15,6 +15,11 @@
 
     </style>
 
+
+    <style name="AppTheme.WhitePrograss">
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/launch_img</item>
     </style>

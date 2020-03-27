@@ -3,7 +3,9 @@ package com.randomgametpnv.help.ui
 import android.util.Log
 import androidx.lifecycle.*
 import com.randomgametpnv.base.createRequestHeader
+import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.database.AppDatabase
+import com.randomgametpnv.help.entities.VoteRespApi
 import com.randomgametpnv.help.net.HelpNet
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +24,8 @@ import java.util.*
 class HelpViewModel(private val database: AppDatabase, private val helpNet: HelpNet) : ViewModel() {
 
     private val requestHeader = CompletableDeferred<String?>()
+    private val _submitVoteRez = MutableLiveData<ApiCall<VoteRespApi>>()
+    val submitVoteRez: LiveData<ApiCall<VoteRespApi>> = _submitVoteRez
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -72,13 +76,13 @@ class HelpViewModel(private val database: AppDatabase, private val helpNet: Help
                 emit(it)
             }
     }
-/*
+
     fun submitVotes(voteId: Int, variantId: Int) = viewModelScope.launch {
-        val header = requestHeader.await() ?: return@
+        val header = requestHeader.await() ?: return@launch
         helpNet.submitVoteCall(header, voteId, variantId)
             .flowOn(Dispatchers.IO)
             .collect {
-                emit(it)
+                _submitVoteRez.value = it
             }
-    }*/
+    }
 }

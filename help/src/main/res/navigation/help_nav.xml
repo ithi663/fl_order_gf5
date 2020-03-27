@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_helpFragment_to_jornalFragment"
             app:destination="@id/jornalFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_alarmsFragment"
+            app:destination="@id/alarmsFragment" />
     </fragment>
     <fragment
         android:id="@+id/votingFragment"
@@ -35,4 +38,9 @@
         android:name="com.randomgametpnv.help.ui.JournalFragment"
         android:label="fragment_jornal"
         tools:layout="@layout/fragment_jornal" />
+    <fragment
+        android:id="@+id/alarmsFragment"
+        android:name="com.randomgametpnv.help.ui.AlarmsFragment"
+        android:label="fragment_alarms"
+        tools:layout="@layout/fragment_alarms" />
 </navigation>

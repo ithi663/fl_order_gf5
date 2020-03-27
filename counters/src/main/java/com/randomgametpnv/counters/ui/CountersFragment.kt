@@ -28,7 +28,6 @@ class CountersFragment : BaseModuleFragment() {
         val topText = resources.getText(com.randomgametpnv.base.R.string.counters).toString()
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
-
         coldWaterButton.setOnClickListener { navigate(TypeOfEnergy.coldwater) }
         gvsButton.setOnClickListener {navigate(TypeOfEnergy.hotwater)}
         el_power.setOnClickListener {navigate(TypeOfEnergy.electrical)}

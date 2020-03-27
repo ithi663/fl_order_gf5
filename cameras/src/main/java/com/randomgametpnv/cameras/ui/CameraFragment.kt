@@ -2,11 +2,14 @@ package com.randomgametpnv.cameras.ui
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.navigation.fragment.navArgs
+import com.randomgametpnv.base.setInvisible
 import com.randomgametpnv.cameras.R
 import com.randomgametpnv.cameras.ui.base.BaseModuleFragment
 import com.randomgametpnv.cameras.ui.utils.MyPlayerListener
+import kotlinx.android.synthetic.main.fragment_camera.*
 import org.videolan.libvlc.IVLCVout
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.Media
@@ -53,7 +56,6 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
     fun prepareVideoPlayer(url: String) {
 
         holder = surfaceView.holder
-        /*surfaceView.setSize(1200, 600)*/;
         val options = ArrayList<String>()
         options.add("-vvv") // verbosity
         options.add("--aout=opensles")
@@ -62,17 +64,6 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
         //options.add("--audio-time-stretch") // time stretching
         //options.add("--avcodec-codec=h264")
 
-/*
-        options.add("-vvv")
-        options.add("--sout-rtp-caching=1000") // time stretching
-        options.add("--network-caching=1000") // verbosity
-        options.add("--live-caching==1000")
-        options.add("--rtsp-frame-buffer-size=947483647")
-        options.add("--no-plugins-cache")
-        options.add("--avcodec-fast")
-        options.add("--avcodec-skiploopfilter=4")
-        options.add("--avcodec-dr")
-*/
 
         libvlc = LibVLC(requireContext(), options)
         holder?.setKeepScreenOn(true)
@@ -82,20 +73,16 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
         mMediaPlayer = MediaPlayer(libvlc)
         mMediaPlayer.setEventListener(mPlayerListener)
 
-
-        // Set up video output
         val vout = mMediaPlayer.vlcVout
         vout.setVideoView(surfaceView)
-        //vout.setSubtitlesView(mSurfaceSubtitles);
         vout.addCallback(this)
         vout.attachViews()
 
-        val m =
-            Media(libvlc, Uri.parse(url))
+        val m = Media(libvlc, Uri.parse(url))
 
         mMediaPlayer.media = m
         mMediaPlayer.play()
-
+        mMediaPlayer
         updateSize()
     }
 
@@ -110,14 +97,21 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
         libvlc = null
     }
 
+
+
     fun updateSize() {
-        val width = 1080
-        val height = 1080
+        val width = requireActivity().window.decorView.width
+        val height = width / 16 * 9
         mMediaPlayer.vlcVout.setWindowSize(width, height)
+        mMediaPlayer.aspectRatio = "16:9"
     }
 
 
     override fun onSurfacesCreated(vlcVout: IVLCVout?) {}
-    override fun onSurfacesDestroyed(vlcVout: IVLCVout?) {}
+    override fun onSurfacesDestroyed(vlcVout: IVLCVout?) {
+
+        mMediaPlayer.setEventListener(null)
+        releasePlayer()
+    }
 
 }

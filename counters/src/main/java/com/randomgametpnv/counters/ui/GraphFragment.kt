@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.jjoe64.graphview.helper.StaticLabelsFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.randomgametpnv.base.initTopHeader
@@ -92,11 +93,18 @@ class GraphFragment : BaseModuleFragment() {
 
     private fun fillGraph(counterDataUi: CounterDataUi) {
 
+        val grid = graph.gridLabelRenderer
+        //grid.setHorizontalLabelsAngle(90)
+        grid.horizontalAxisTitle = "дата"
+        grid.labelFormatter = StaticLabelsFormatter(graph).also { it.setHorizontalLabels(arrayOf("1", "2", "3", "4")) }
+
         var index = 0
+
         val array = counterDataUi.date.map {
             index +=1
             DataPoint(index.toDouble(), it.value.toDouble())
         }.toTypedArray()
+
         val graphLine = LineGraphSeries(array)
         graphLine.color = resources.getColor(R.color.dark_ripple)
         graph.addSeries(graphLine)

@@ -9,15 +9,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.help.R
+import com.randomgametpnv.help.ui.base.BaseModuleFragment
 import com.randomgametpnv.help.ui.util.HelpViewModelFactory
 import kotlinx.android.synthetic.main.fragment_help.*
 import org.koin.android.ext.android.inject
 
 
-class HelpFragment : Fragment() {
-
-    private val viewModelFactory: HelpViewModelFactory by inject()
-    lateinit var viewModel: HelpViewModel
+class HelpFragment : BaseModuleFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,9 +28,6 @@ class HelpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel =
-            navGraphViewModels<HelpViewModel>(R.id.helpFragment) { viewModelFactory }.value
 
 
         val topText = resources.getText(com.randomgametpnv.base.R.string.help).toString()
@@ -48,6 +43,10 @@ class HelpFragment : Fragment() {
 
         journalButton.setOnClickListener {
             findNavController().navigate(R.id.action_helpFragment_to_jornalFragment)
+        }
+
+        crashButton.setOnClickListener {
+            findNavController().navigate(R.id.action_helpFragment_to_alarmsFragment)
         }
     }
 }
