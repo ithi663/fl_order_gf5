@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.jjoe64.graphview.DefaultLabelFormatter
 import com.jjoe64.graphview.helper.StaticLabelsFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -14,12 +15,14 @@ import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.base.setInvisible
 import com.randomgametpnv.base.setVisible
 import com.randomgametpnv.base.showErrorMessage
+import com.randomgametpnv.base.util.AppDataFormat
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.counters.R
 import com.randomgametpnv.counters.entities.CounterDataUi
 import com.randomgametpnv.counters.entities.TypeOfEnergy
 import com.randomgametpnv.counters.ui.base.BaseModuleFragment
 import kotlinx.android.synthetic.main.fragment_graph.*
+import java.util.*
 
 
 class GraphFragment : BaseModuleFragment() {
@@ -95,14 +98,23 @@ class GraphFragment : BaseModuleFragment() {
 
         val grid = graph.gridLabelRenderer
         //grid.setHorizontalLabelsAngle(90)
-        grid.horizontalAxisTitle = "дата"
-        grid.labelFormatter = StaticLabelsFormatter(graph).also { it.setHorizontalLabels(arrayOf("1", "2", "3", "4")) }
+        //grid.horizontalAxisTitle = "дата"
+        grid.labelFormatter = object : DefaultLabelFormatter() {
+            override fun formatLabel(value: Double, isValueX: Boolean): String {
+
+                if (isValueX) {
+                    return AppDataFormat.fromDateTo_dd_MM(value.toLong())
+                }
+                return super.formatLabel(value, isValueX)
+            }
+        }
+
 
         var index = 0
 
         val array = counterDataUi.date.map {
             index +=1
-            DataPoint(index.toDouble(), it.value.toDouble())
+            DataPoint(it.date, it.value.toDouble())
         }.toTypedArray()
 
         val graphLine = LineGraphSeries(array)

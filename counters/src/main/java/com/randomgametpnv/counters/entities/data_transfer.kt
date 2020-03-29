@@ -1,5 +1,6 @@
 package com.randomgametpnv.counters.entities
 
+import com.randomgametpnv.base.util.AppDataFormat
 import com.randomgametpnv.common_value_objects.ApiCall
 
 
@@ -16,7 +17,7 @@ fun List<CounterData>.toUiData(energy: TypeOfEnergy): CounterDataUi {
             mDate.forEach {
                 if (count > dayLimit) return@toUiData CounterDataUi(energy, list)
                 count +=1
-                list.add(MeasurementDataUi(it.value, it.day, ""))
+                list.add(MeasurementDataUi(it.value, AppDataFormat.fromCountersApiDateToDate(it.day), ""))
             }
         }
     }
