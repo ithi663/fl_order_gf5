@@ -3,6 +3,6 @@
     android:color="@color/dark_ripple">
 
     <item android:state_pressed = "true"
-        android:drawable="@drawable/order">
+        android:drawable="@drawable/reject_h">
     </item>
 </ripple>

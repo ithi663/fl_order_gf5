@@ -7,6 +7,8 @@ dependencies {
     implementation project(":base")
     implementation project(":common_value_objects")
     implementation project(":navigation")
+    implementation files('libs/peers-lib-0.5.1-SNAPSHOT.jar')
+    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
