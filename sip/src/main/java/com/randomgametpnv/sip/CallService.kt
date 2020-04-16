@@ -55,7 +55,7 @@ class CallService: Service(), KoinComponent {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notification = notificationFactoryFactory.createServiceNotification()
-        startForeground(1, notification)
+        startForeground(mainNotifyId, notification)
         return START_STICKY
     }
 
