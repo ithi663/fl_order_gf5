@@ -1,9 +1,12 @@
-package com.randomgametpnv.sip.util
+package com.randomgametpnv.sip.util.sip_manager
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.randomgametpnv.sip.entities.SipServiceState
+import com.randomgametpnv.sip.entities.SipRegistrationState
+import com.randomgametpnv.sip.entities.SipCallState
+import com.randomgametpnv.sip.util.DonDigidonHandler
 import kotlinx.coroutines.*
 import net.sourceforge.peers.Config
 import net.sourceforge.peers.FileLogger
@@ -15,56 +18,81 @@ import net.sourceforge.peers.sip.syntaxencoding.SipUriSyntaxException
 import net.sourceforge.peers.sip.transport.SipRequest
 import net.sourceforge.peers.sip.transport.SipResponse
 
-class SipManager(context: Context) : SipListener {
+class SipManagerImpl(context: Context, private val scope: CoroutineScope) : SipListener, SipManager {
 
     private val _tag = "SIP_TAG"
-    val state = MutableLiveData<SipServiceState>()
 
+    private val _state = MutableLiveData<SipCallState>()
+    private val _sipRegistrationState = MutableLiveData<SipRegistrationState>()
+    override fun getStateListener() = _state
+    override fun getRegisterListener() = _sipRegistrationState
 
     private var userAgent: UserAgent? = null
-    private var donDigidonService =
-        DonDigidonService(context)
-    private var javaxSoundManager: SipAudioManager =
-        SipAudioManager()
-
-    private val scope = CoroutineScope(Dispatchers.IO + Job())
+    private var donDigidonService = DonDigidonHandler(context)
+    private var javaxSoundManager: SipAudioManager = SipAudioManager()
     private var sipRequest: SipRequest? = null
 
 
-    fun createSipAgent(config: Config) {
-        val logger: Logger = FileLogger(null)
-        userAgent = UserAgent(this, config, logger, javaxSoundManager)
+    init {
+        _sipRegistrationState.value = SipRegistrationState.Unreg()
+    }
+
+    override fun register(config: Config): LiveData<SipRegistrationState> {
+
         scope.launch {
             try {
+                withContext(Dispatchers.Main) {_sipRegistrationState.value = SipRegistrationState.StartNewRegistration(System.currentTimeMillis())}
+                Log.d(_tag, "registration start")
+                val logger: Logger = FileLogger(null)
+                userAgent = UserAgent(this@SipManagerImpl, config, logger, javaxSoundManager)
                 userAgent?.register()
+
             } catch (e: SipUriSyntaxException) {
+                withContext(Dispatchers.Main) {_sipRegistrationState.value = SipRegistrationState.RegisteringError()}
                 Log.d(_tag, "register userAgent error -> $e")
             }
         }
+        return _sipRegistrationState
     }
 
-    fun unreg() {
-        state.value = SipServiceState.Unreg()
+    override fun unregister() {
+        _sipRegistrationState.value = SipRegistrationState.Unreg()
         scope.launch {
             userAgent?.unregister()
         }
     }
 
+
+
     override fun registerSuccessful(p0: SipResponse?) {
         scope.launch(Dispatchers.Main) {
             if (userAgent?.isRegistered == true){
-                state.value =
-                    SipServiceState.RegisteringSuccess()
+                _sipRegistrationState.value = SipRegistrationState.RegisteringSuccess()
             } else {
-                state.value = SipServiceState.Unreg()
+                _sipRegistrationState.value = SipRegistrationState.Unreg()
             }
         }
         Log.d(_tag, "registerSuccessful")
     }
 
+    override fun registerFailed(p0: SipResponse?) {
+        scope.launch(Dispatchers.Main) {
+            _sipRegistrationState.value = SipRegistrationState.RegisteringError()
+        }
+        Log.d(_tag, "registerFailed")
+    }
+
+    override fun registering(p0: SipRequest?) {
+        scope.launch(Dispatchers.Main) {
+            _sipRegistrationState.value = SipRegistrationState.Registering()
+        }
+        Log.d(_tag, "registering")
+    }
+
+
     override fun incomingCall(p0: SipRequest?, p1: SipResponse?) {
         scope.launch(Dispatchers.Main) {
-            state.value = SipServiceState.IncomingCall(
+            _state.value = SipCallState.IncomingCall(
                 p0?.requestUri?.toString() ?: "no data"
             )
         }
@@ -74,17 +102,9 @@ class SipManager(context: Context) : SipListener {
         donDigidonService.callInvite()
     }
 
-    override fun registerFailed(p0: SipResponse?) {
-        scope.launch(Dispatchers.Main) {
-            state.value =
-                SipServiceState.RegisteringError()
-        }
-        Log.d(_tag, "registerFailed")
-    }
-
     override fun remoteHangup(p0: SipRequest?) {
         scope.launch(Dispatchers.Main) {
-            state.value = SipServiceState.NoActiveState
+            _state.value = SipCallState.NoActiveState
         }
         userAgent?.soundManager?.close()
         donDigidonService.stopPlaying()
@@ -92,42 +112,34 @@ class SipManager(context: Context) : SipListener {
     }
 
     override fun ringing(p0: SipResponse?) {
-        scope.launch(Dispatchers.Main) {
-            state.value = SipServiceState.Ringing("!!")
-        }
+/*        scope.launch(Dispatchers.Main) {
+            _state.value = SipCallState.Ringing("!!")
+        }*/
         userAgent?.soundManager?.init()
         Log.d(_tag, "ringing")
     }
 
     override fun calleePickup(p0: SipResponse?) {
         scope.launch(Dispatchers.Main) {
-            state.value =
-                SipServiceState.ActiveConversation(
+            _state.value =
+                SipCallState.ActiveConversation(
                     p0?.statusCode?.toString() ?: ""
                 )
         }
-        //userAgent.close()
         Log.d(_tag, "calleePickup")
     }
 
     override fun error(p0: SipResponse?) {
         scope.launch(Dispatchers.Main) {
-            state.value = SipServiceState.NoActiveState
+            _state.value = SipCallState.NoActiveState
         }
         donDigidonService.stopPlaying()
         userAgent?.soundManager?.close()
         Log.d(_tag, "error")
     }
 
-    override fun registering(p0: SipRequest?) {
-        scope.launch(Dispatchers.Main) {
-            state.value = SipServiceState.Registering()
-        }
-        Log.d(_tag, "registering")
-    }
 
-
-    fun accept() {
+    override fun accept() {
         Log.d(_tag, "accept call -> invoke")
         scope.launch {
             if (sipRequest == null) {
@@ -142,7 +154,7 @@ class SipManager(context: Context) : SipListener {
         }
     }
 
-    fun hangup() {
+    override fun hangup() {
         scope.launch {
             if (sipRequest == null) {
                 Log.d(_tag, "accept call -> sipRequest is null")
@@ -154,23 +166,24 @@ class SipManager(context: Context) : SipListener {
         }
     }
 
-    fun reject() {
+    override fun reject() {
         scope.launch {
             if (sipRequest == null) {
                 Log.d(_tag, "accept call -> sipRequest is null")
                 return@launch
             }
+            withContext(Dispatchers.Main) {_state.value = SipCallState.NoActiveState}
             userAgent?.soundManager?.close()
             donDigidonService.stopPlaying()
             userAgent?.rejectCall(sipRequest)
         }
     }
 
-    fun call(sipNumber: String) {
+/*    fun call(sipNumber: String) {
         scope.launch {
             userAgent?.soundManager?.init()
             donDigidonService.stopPlaying()
             sipRequest = userAgent?.invite(sipNumber, null)
         }
-    }
+    }*/
 }

@@ -1,26 +1,31 @@
 package com.randomgametpnv.sip
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.randomgametpnv.sip.ui.CallActivity
-import com.randomgametpnv.sip.util.SipManager
+import com.randomgametpnv.sip.entities.SipRegistrationState
+import com.randomgametpnv.sip.util.RegisterHandler
+import com.randomgametpnv.sip.util.networkState.NetworkStateListener
+import com.randomgametpnv.sip.util.notifications.AppNotificationFactory
+import com.randomgametpnv.sip.util.sip_manager.SipManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import net.sourceforge.peers.Config
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 
-class CallService: Service() {
+class CallService: Service(), KoinComponent {
 
+    private val notificationFactoryFactory: AppNotificationFactory by inject()
+    private val networkStateListener: NetworkStateListener by inject()
+    private val sipManager: SipManager by inject()
+    private val registerHandler: RegisterHandler by inject()
+    private val scope: CoroutineScope by inject()
 
-    private val CHANNEL_ID = "SmartHouse"
     val binder: LocalBinder = LocalBinder()
-    val sipManager = SipManager(this)
-
 
     inner class LocalBinder : android.os.Binder() {
         val service: CallService = this@CallService
@@ -38,36 +43,23 @@ class CallService: Service() {
         }
     }
 
+
+    fun checkRegistration(config: Config) {
+        val state = sipManager.getRegisterListener().value is SipRegistrationState.RegisteringSuccess
+        if(!state) {
+            scope.launch {
+                registerHandler.handleRegistration(config)
+            }
+        }
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        //do heavy work on a background thread
-        val input = intent?.getStringExtra("inputExtra")
-        createNotificationChannel()
-        val notificationIntent = Intent(this, CallActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(
-                this,
-                0, notificationIntent, 0
-        )
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                //.setContentTitle("Smart House")
-                //.setContentText(input)
-                .setSmallIcon(R.drawable.launch_img)
-                .setContentIntent(pendingIntent)
-                .build()
+        val notification = notificationFactoryFactory.createServiceNotification()
         startForeground(1, notification)
-        //stopSelf();
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder? {
         return binder
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val serviceChannel = NotificationChannel(CHANNEL_ID, "Smart House service channel",
-                    NotificationManager.IMPORTANCE_DEFAULT)
-            val manager = getSystemService(NotificationManager::class.java)
-            manager!!.createNotificationChannel(serviceChannel)
-        }
     }
 }

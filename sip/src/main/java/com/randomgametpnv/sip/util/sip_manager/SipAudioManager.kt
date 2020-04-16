@@ -1,4 +1,4 @@
-package com.randomgametpnv.sip.util
+package com.randomgametpnv.sip.util.sip_manager
 
 import android.media.*
 import android.media.audiofx.AcousticEchoCanceler

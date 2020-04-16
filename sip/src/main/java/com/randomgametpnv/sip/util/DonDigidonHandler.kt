@@ -7,7 +7,7 @@ import android.media.RingtoneManager
 import android.os.VibrationEffect
 import android.os.Vibrator
 
-class DonDigidonService(private val context: Context) {
+class DonDigidonHandler(private val context: Context) {
 
     private var ringtone: Ringtone? = null
     private var vibeService: Vibrator? = null

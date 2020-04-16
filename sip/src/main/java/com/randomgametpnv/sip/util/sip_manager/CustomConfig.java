@@ -1,4 +1,4 @@
-package com.randomgametpnv.sip.util;
+package com.randomgametpnv.sip.util.sip_manager;
 
 import net.sourceforge.peers.Config;
 import net.sourceforge.peers.media.MediaMode;

@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.randomgametpnv.sip.CallService
 import com.randomgametpnv.sip.R
-import com.randomgametpnv.sip.entities.SipServiceState
+import com.randomgametpnv.sip.entities.SipCallState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -20,8 +20,8 @@ class CallActivity : AppCompatActivity() {
 
     var mBound = false
     var service: CallService? = null
-    var callStatus: SipServiceState =
-        SipServiceState.NoActiveState
+    var callStatus: SipCallState =
+        SipCallState.NoActiveState
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
