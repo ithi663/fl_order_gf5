@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -20,16 +19,20 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
 
 
     private val MAIN_CHANNEL_ID = "SmartHouseService"
-    private val INCOMING_CALL_CHAMMEL_ID = "SmartHouseCall"
-
-    private lateinit var servicePendingIntent: PendingIntent
-    private lateinit var callPendingIntent: PendingIntent
+    private val INCOMING_CALL_CHANNEL_ID = "SmartHouseCall"
+    private val MISSING_CALL_CHANNEL_ID = "SmartHouseMissingCalls"
 
     private val notificationManagerCompat: NotificationManagerCompat = NotificationManagerCompat.from(context)
 
+    private lateinit var servicePendingIntent: PendingIntent
+    private lateinit var incomingCallPendingIntent: PendingIntent
+
+    private lateinit var missingCallPendingIntent: PendingIntent
+
     init {
         prepareServiceNotifications()
-        prepareCallNotifications()
+        prepareIncomingCallNotifications()
+        prepareMissingCallNotifications()
     }
 
     override fun showServiceNotification(): Notification {
@@ -42,13 +45,13 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
 
     override fun showIncomingCallNotification() {
 
-        val notification = NotificationCompat.Builder(context, INCOMING_CALL_CHAMMEL_ID)
+        val notification = NotificationCompat.Builder(context, INCOMING_CALL_CHANNEL_ID)
             .setOnlyAlertOnce(true)
             //.setContent(createCallCustomView())
             .setSmallIcon(R.drawable.ic_home)
             .setContentTitle("Входящий вызов")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setFullScreenIntent(callPendingIntent, true)
+            .setFullScreenIntent(incomingCallPendingIntent, true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .build()
 
@@ -60,7 +63,18 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
     }
 
     override fun showMissingCallNotification() {
-        
+
+        val notification = NotificationCompat.Builder(context, INCOMING_CALL_CHANNEL_ID)
+            .setOnlyAlertOnce(true)
+            //.setContent(createCallCustomView())
+            .setSmallIcon(R.drawable.ic_home)
+            .setContentTitle("Пропущенный вызов")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setFullScreenIntent(incomingCallPendingIntent, true)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .build()
+
+        notificationManagerCompat.notify(incomingCallNotifyId, notification)
     }
 
 
@@ -85,25 +99,38 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(MAIN_CHANNEL_ID, "Smart House service channel",
                 NotificationManager.IMPORTANCE_HIGH)
-            val manager = context.getSystemService(NotificationManager::class.java)
-            manager!!.createNotificationChannel(serviceChannel)
+            notificationManagerCompat.createNotificationChannel(serviceChannel)
         }
     }
 
 
-    private fun prepareCallNotifications() {
+    private fun prepareIncomingCallNotifications() {
 
         val callNotificationIntent = Intent(context, CallActivity::class.java)
-        callPendingIntent = PendingIntent.getActivity(
+        incomingCallPendingIntent = PendingIntent.getActivity(
             context,
             0, callNotificationIntent, 0
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val callChannel = NotificationChannel(INCOMING_CALL_CHAMMEL_ID, "Smart House call channel",
+            val callChannel = NotificationChannel(INCOMING_CALL_CHANNEL_ID, "Smart House call channel",
                 NotificationManager.IMPORTANCE_HIGH)
-            val manager = context.getSystemService(NotificationManager::class.java)
-            manager!!.createNotificationChannel(callChannel)
+            notificationManagerCompat.createNotificationChannel(callChannel)
+        }
+    }
+
+    private fun prepareMissingCallNotifications() {
+
+        val missingCallNotificationIntent = Intent(context, CallActivity::class.java)
+        missingCallPendingIntent = PendingIntent.getActivity(
+            context,
+            0, missingCallNotificationIntent, 0
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val callChannel = NotificationChannel(MISSING_CALL_CHANNEL_ID, "Smart House missing call channel",
+                NotificationManager.IMPORTANCE_HIGH)
+            notificationManagerCompat.createNotificationChannel(callChannel)
         }
     }
 
@@ -111,8 +138,6 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
     private fun createServiceCustomVIew(text: String): RemoteViews {
         val remoteView = RemoteViews(context.packageName, R.layout.notification_view)
         remoteView.setImageViewResource(R.id.imagenotileft, R.drawable.ic_home)
-        remoteView.setTextViewText(R.id.title, "state:")
-        remoteView.setTextViewText(R.id.text, text)
         return remoteView
     }
 

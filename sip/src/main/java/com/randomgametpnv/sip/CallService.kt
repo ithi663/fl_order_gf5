@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.os.PowerManager
 import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.util.RegisterHandler
 import com.randomgametpnv.sip.util.networkState.NetworkStateListener
@@ -32,6 +33,8 @@ class CallService: Service(), KoinComponent {
     private lateinit var sipManager: SipManager
     private lateinit var registerHandler: RegisterHandler
 
+    private var wakeLock: PowerManager.WakeLock? = null
+
     val binder: LocalBinder = LocalBinder()
 
     private fun initAllValues() {
@@ -52,10 +55,20 @@ class CallService: Service(), KoinComponent {
     override fun onCreate() {
         super.onCreate()
 
+        // avoid Doze Mode
+        wakeLock =
+            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SmartHouse::lock").apply {
+                    acquire()
+                }
+            }
+
         initAllValues()
         val notification = notificationFactory.showServiceNotification()
         startForeground(mainNotifyId, notification)
     }
+
+
 
     companion object {
         fun startService(context: Context) {
@@ -87,7 +100,7 @@ class CallService: Service(), KoinComponent {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId);
-        return START_REDELIVER_INTENT
+        return START_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder? {

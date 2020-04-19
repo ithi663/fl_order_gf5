@@ -27,7 +27,8 @@
         <service
             android:name="com.randomgametpnv.sip.CallService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false"
+            >
 
         </service>
 
