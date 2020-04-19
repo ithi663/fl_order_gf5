@@ -2,6 +2,7 @@ package com.randomgametpnv.sip.util.notifications
 
 import android.util.Log
 import com.randomgametpnv.sip.entities.NetState
+import com.randomgametpnv.sip.entities.ServiceNotificationType
 import com.randomgametpnv.sip.entities.SipCallState
 import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.util.networkState.NetworkStateListener
@@ -14,7 +15,7 @@ class NotificationMessageHandler(
 ) {
 
 
-    var lastRegistrationEvent: String = ""
+    private var lastRegistrationEvent: SipRegistrationState = SipRegistrationState.Registering()
 
     init {
         handleRegistrationEvents()
@@ -26,10 +27,33 @@ class NotificationMessageHandler(
         networkStateListener.getStateListener().observeForever {
             when (it) {
                 is NetState.Lose -> {
-                    appNotificationFactory.updateServiceNotification("отсутствует интернет соединение")
+                    when (lastRegistrationEvent) {
+                        is SipRegistrationState.Registering -> {
+                            appNotificationFactory.updateServiceNotification(ServiceNotificationType.RegisteringWithNoActiveInternetConnection)
+                        }
+                        else -> {
+                            appNotificationFactory.updateServiceNotification(ServiceNotificationType.NoActiveInternetConnection)
+                        }
+                    }
                 }
                 is NetState.Active -> {
-                    appNotificationFactory.updateServiceNotification(lastRegistrationEvent)
+                    when (lastRegistrationEvent) {
+
+                        is SipRegistrationState.Registering -> {
+                            appNotificationFactory.updateServiceNotification(ServiceNotificationType.RegisteringWithActiveInternetConnection)
+                        }
+
+                        is SipRegistrationState.RegisteringError -> {
+                            appNotificationFactory.updateServiceNotification(ServiceNotificationType.StatusError)
+                        }
+
+                        is SipRegistrationState.RegisteringSuccess -> {
+                            appNotificationFactory.updateServiceNotification(ServiceNotificationType.StatusOk)
+                        }
+                        else -> {
+                            appNotificationFactory.updateServiceNotification(ServiceNotificationType.NoActiveInternetConnection)
+                        }
+                    }
                 }
             }
         }
@@ -37,22 +61,18 @@ class NotificationMessageHandler(
 
     private fun handleRegistrationEvents() {
         sipManager.getRegisterListener().observeForever {
+
+            lastRegistrationEvent = it
+
             when (it) {
-                is SipRegistrationState.StartNewRegistration -> {
-                }
-                is SipRegistrationState.Registering -> {
-                    lastRegistrationEvent = "регистрация.."
-                    appNotificationFactory.updateServiceNotification("регистрация..")
-                }
+                is SipRegistrationState.StartNewRegistration -> { }
+                is SipRegistrationState.Registering -> { }
+                is SipRegistrationState.Unreg -> { }
                 is SipRegistrationState.RegisteringSuccess -> {
-                    lastRegistrationEvent = "регистрация прошла успешно"
-                    appNotificationFactory.updateServiceNotification("регистрация прошла успешно")
+                    appNotificationFactory.updateServiceNotification(ServiceNotificationType.StatusOk)
                 }
                 is SipRegistrationState.RegisteringError -> {
-                    lastRegistrationEvent = "ошибка регистрации"
-                    appNotificationFactory.updateServiceNotification("ошибка регистрации")
-                }
-                is SipRegistrationState.Unreg -> {
+                    appNotificationFactory.updateServiceNotification(ServiceNotificationType.StatusError)
                 }
             }
         }
@@ -62,7 +82,7 @@ class NotificationMessageHandler(
     private fun handleIncomingCallEvents() {
 
         sipManager.getCallStateListener().observeForever {
-            when(it) {
+            when (it) {
                 is SipCallState.NoActiveState -> {
                     appNotificationFactory.hideIncomingCallNotification()
                 }

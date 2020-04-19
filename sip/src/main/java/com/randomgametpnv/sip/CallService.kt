@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import com.randomgametpnv.sip.entities.ServiceNotificationType
 import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.util.RegisterHandler
 import com.randomgametpnv.sip.util.networkState.NetworkStateListener
@@ -55,7 +56,6 @@ class CallService: Service(), KoinComponent {
     override fun onCreate() {
         super.onCreate()
 
-        // avoid Doze Mode
         wakeLock =
             (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
                 newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SmartHouse::lock").apply {
@@ -63,9 +63,9 @@ class CallService: Service(), KoinComponent {
                 }
             }
 
-        initAllValues()
-        val notification = notificationFactory.showServiceNotification()
+        val notification = notificationFactory.showServiceNotification(ServiceNotificationType.RegisteringWithActiveInternetConnection)
         startForeground(mainNotifyId, notification)
+        initAllValues()
     }
 
 

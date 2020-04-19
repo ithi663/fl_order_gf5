@@ -11,6 +11,7 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.randomgametpnv.sip.R
+import com.randomgametpnv.sip.entities.ServiceNotificationType
 import com.randomgametpnv.sip.mainNotifyId
 import com.randomgametpnv.sip.incomingCallNotifyId
 import com.randomgametpnv.sip.ui.CallActivity
@@ -23,10 +24,10 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
     private val MISSING_CALL_CHANNEL_ID = "SmartHouseMissingCalls"
 
     private val notificationManagerCompat: NotificationManagerCompat = NotificationManagerCompat.from(context)
+    private val serviceMainNotificationVIewFactory: ServiceMainNotificationVIewFactory = ServiceMainNotificationVIewFactory(context)
 
     private lateinit var servicePendingIntent: PendingIntent
     private lateinit var incomingCallPendingIntent: PendingIntent
-
     private lateinit var missingCallPendingIntent: PendingIntent
 
     init {
@@ -35,12 +36,12 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
         prepareMissingCallNotifications()
     }
 
-    override fun showServiceNotification(): Notification {
-        return createServiceNotification("registering..")
+    override fun showServiceNotification(notificationType: ServiceNotificationType): Notification {
+        return createServiceNotification(notificationType)
     }
 
-    override fun updateServiceNotification(text: String) {
-        notificationManagerCompat.notify(mainNotifyId, createServiceNotification(text))
+    override fun updateServiceNotification(notificationType: ServiceNotificationType) {
+        notificationManagerCompat.notify(mainNotifyId, createServiceNotification(notificationType))
     }
 
     override fun showIncomingCallNotification() {
@@ -70,7 +71,7 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
             .setSmallIcon(R.drawable.ic_home)
             .setContentTitle("Пропущенный вызов")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setFullScreenIntent(incomingCallPendingIntent, true)
+            .setFullScreenIntent(missingCallPendingIntent, true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .build()
 
@@ -78,10 +79,10 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
     }
 
 
-    private fun createServiceNotification(message: String) =
+    private fun createServiceNotification(notificationType: ServiceNotificationType) =
         NotificationCompat.Builder(context, MAIN_CHANNEL_ID)
             .setOnlyAlertOnce(true)
-            .setContent(createServiceCustomVIew(message))
+            .setContent(serviceMainNotificationVIewFactory.getView(notificationType))
             .setSmallIcon(R.drawable.ic_home)
             .setContentIntent(servicePendingIntent)
             .setCategory(Notification.CATEGORY_SERVICE)
@@ -134,12 +135,6 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
         }
     }
 
-
-    private fun createServiceCustomVIew(text: String): RemoteViews {
-        val remoteView = RemoteViews(context.packageName, R.layout.notification_view)
-        remoteView.setImageViewResource(R.id.imagenotileft, R.drawable.ic_home)
-        return remoteView
-    }
 
     private fun createCallCustomView(): RemoteViews {
         val remoteView = RemoteViews(context.packageName, R.layout.notification_view)
