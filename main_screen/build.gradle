@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 dependencies {
 
     implementation project(":base")
+    implementation project(":sip")
     implementation project(":common_value_objects")
     implementation project(":navigation")
     implementation project(":database")

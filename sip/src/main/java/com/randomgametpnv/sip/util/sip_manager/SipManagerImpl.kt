@@ -4,10 +4,13 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.entities.SipCallState
+import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.util.DonDigidonHandler
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.sourceforge.peers.Config
 import net.sourceforge.peers.FileLogger
 import net.sourceforge.peers.Logger
@@ -18,13 +21,13 @@ import net.sourceforge.peers.sip.syntaxencoding.SipUriSyntaxException
 import net.sourceforge.peers.sip.transport.SipRequest
 import net.sourceforge.peers.sip.transport.SipResponse
 
-class SipManagerImpl(context: Context, private val scope: CoroutineScope) : SipListener, SipManager {
+class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : SipListener, SipManager {
 
     private val _tag = "SIP_TAG"
 
-    private val _state = MutableLiveData<SipCallState>()
+    private val _callState = MutableLiveData<SipCallState>()
     private val _sipRegistrationState = MutableLiveData<SipRegistrationState>()
-    override fun getStateListener() = _state
+    override fun getCallStateListener() = _callState
     override fun getRegisterListener() = _sipRegistrationState
 
     private var userAgent: UserAgent? = null
@@ -92,7 +95,7 @@ class SipManagerImpl(context: Context, private val scope: CoroutineScope) : SipL
 
     override fun incomingCall(p0: SipRequest?, p1: SipResponse?) {
         scope.launch(Dispatchers.Main) {
-            _state.value = SipCallState.IncomingCall(
+            _callState.value = SipCallState.IncomingCall(
                 p0?.requestUri?.toString() ?: "no data"
             )
         }
@@ -104,7 +107,7 @@ class SipManagerImpl(context: Context, private val scope: CoroutineScope) : SipL
 
     override fun remoteHangup(p0: SipRequest?) {
         scope.launch(Dispatchers.Main) {
-            _state.value = SipCallState.NoActiveState
+            _callState.value = SipCallState.NoActiveState
         }
         userAgent?.soundManager?.close()
         donDigidonService.stopPlaying()
@@ -121,7 +124,7 @@ class SipManagerImpl(context: Context, private val scope: CoroutineScope) : SipL
 
     override fun calleePickup(p0: SipResponse?) {
         scope.launch(Dispatchers.Main) {
-            _state.value =
+            _callState.value =
                 SipCallState.ActiveConversation(
                     p0?.statusCode?.toString() ?: ""
                 )
@@ -131,7 +134,7 @@ class SipManagerImpl(context: Context, private val scope: CoroutineScope) : SipL
 
     override fun error(p0: SipResponse?) {
         scope.launch(Dispatchers.Main) {
-            _state.value = SipCallState.NoActiveState
+            _callState.value = SipCallState.NoActiveState
         }
         donDigidonService.stopPlaying()
         userAgent?.soundManager?.close()
@@ -172,7 +175,7 @@ class SipManagerImpl(context: Context, private val scope: CoroutineScope) : SipL
                 Log.d(_tag, "accept call -> sipRequest is null")
                 return@launch
             }
-            withContext(Dispatchers.Main) {_state.value = SipCallState.NoActiveState}
+            withContext(Dispatchers.Main) {_callState.value = SipCallState.NoActiveState}
             userAgent?.soundManager?.close()
             donDigidonService.stopPlaying()
             userAgent?.rejectCall(sipRequest)

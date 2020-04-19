@@ -7,7 +7,7 @@ import net.sourceforge.peers.Config
 
 interface SipManager {
 
-    fun getStateListener(): LiveData<SipCallState>
+    fun getCallStateListener(): LiveData<SipCallState>
     fun getRegisterListener(): LiveData<SipRegistrationState>
 
     fun register(config: Config): LiveData<SipRegistrationState>

@@ -8,7 +8,7 @@ apply from: "../dependencies.gradle"
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.randomgametpnv.order80202"
@@ -43,6 +43,7 @@ dependencies {
     implementation project(":counters")
     implementation project(":services")
     implementation project(":database")
+    implementation project(":sip")
 
     implementation navigation_dependencies.values()
     implementation koin_dependencies.values()

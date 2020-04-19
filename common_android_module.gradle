@@ -3,7 +3,7 @@ apply from: "../common_android_plugins.gradle"
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
     kotlinOptions { jvmTarget = "1.8" }
 

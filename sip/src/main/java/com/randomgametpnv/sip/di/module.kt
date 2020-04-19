@@ -5,6 +5,7 @@ import com.randomgametpnv.sip.util.networkState.NetworkStateListener
 import com.randomgametpnv.sip.util.networkState.NetworkStateListenerImpl
 import com.randomgametpnv.sip.util.notifications.AppNotificationFactory
 import com.randomgametpnv.sip.util.notifications.AppNotificationFactoryImpl
+import com.randomgametpnv.sip.util.notifications.NotificationMessageHandler
 import com.randomgametpnv.sip.util.sip_manager.SipManager
 import com.randomgametpnv.sip.util.sip_manager.SipManagerImpl
 import kotlinx.coroutines.CoroutineScope
@@ -20,4 +21,5 @@ val sipModule = module {
     single<AppNotificationFactory> { AppNotificationFactoryImpl(androidContext()) }
     single<NetworkStateListener> { NetworkStateListenerImpl(androidContext(), get()) }
     single { RegisterHandler(get(), get()) }
+    single { NotificationMessageHandler(get(), get(), get()) }
 }

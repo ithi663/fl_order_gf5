@@ -20,16 +20,16 @@
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="190dp"
+        android:background="@color/footer_transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/footer_transparent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/rejectButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
@@ -37,13 +37,13 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="0.19"
+        app:layout_constraintVertical_bias="0.22000003"
         app:srcCompat="@drawable/reject_button_b_background" />
 
     <ImageView
         android:id="@+id/openDoorButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toStartOf="@+id/answerCallButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/rejectButton"
@@ -52,8 +52,8 @@
 
     <ImageView
         android:id="@+id/answerCallButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/openDoorButton"

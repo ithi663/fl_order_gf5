@@ -5,7 +5,9 @@ import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.util.networkState.NetworkStateListener
 import com.randomgametpnv.sip.util.sip_manager.SipManager
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import net.sourceforge.peers.Config
 import java.util.concurrent.TimeUnit
 
@@ -13,7 +15,7 @@ class RegisterHandler(private val networkStateListener: NetworkStateListener, pr
 
 
     private val regCount = 20
-    private val registerTime = TimeUnit.MINUTES.toMillis(1)
+    private val registerTime = TimeUnit.SECONDS.toMillis(10)
 
     suspend fun handleRegistration(config: Config) {
 
@@ -30,20 +32,22 @@ class RegisterHandler(private val networkStateListener: NetworkStateListener, pr
         val res = CompletableDeferred<Boolean>()
         networkStateListener.waitActiveNetworkState()
         val state = sipManager.register(config)
-        state.observeForever(object : Observer<SipRegistrationState> {
-            override fun onChanged(t: SipRegistrationState?) {
-                when (t) {
-                    is SipRegistrationState.RegisteringSuccess -> {
-                        res.complete(true)
-                        state.removeObserver(this)
-                    }
-                    is SipRegistrationState.RegisteringError -> {
-                        res.complete(false)
-                        state.removeObserver(this)
+        withContext(Dispatchers.Main) {
+            state.observeForever(object : Observer<SipRegistrationState> {
+                override fun onChanged(t: SipRegistrationState?) {
+                    when (t) {
+                        is SipRegistrationState.RegisteringSuccess -> {
+                            res.complete(true)
+                            state.removeObserver(this)
+                        }
+                        is SipRegistrationState.RegisteringError -> {
+                            res.complete(false)
+                            state.removeObserver(this)
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
         return res.await()
     }
 }

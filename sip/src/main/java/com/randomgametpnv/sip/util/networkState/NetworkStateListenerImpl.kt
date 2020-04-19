@@ -1,5 +1,6 @@
 package com.randomgametpnv.sip.util.networkState
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
@@ -26,6 +27,7 @@ class NetworkStateListenerImpl(context: Context, val scope: CoroutineScope): Net
 
     override fun getStateListener() = stateListener
 
+    @SuppressLint("MissingPermission")
     private fun registerListener() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
