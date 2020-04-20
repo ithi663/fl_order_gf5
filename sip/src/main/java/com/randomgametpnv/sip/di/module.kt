@@ -1,6 +1,6 @@
 package com.randomgametpnv.sip.di
 
-import com.randomgametpnv.sip.util.RegisterHandler
+import com.randomgametpnv.sip.util.RegistrationHandler
 import com.randomgametpnv.sip.util.networkState.NetworkStateListener
 import com.randomgametpnv.sip.util.networkState.NetworkStateListenerImpl
 import com.randomgametpnv.sip.util.notifications.AppNotificationFactory
@@ -20,6 +20,6 @@ val sipModule = module {
     single<SipManager> { SipManagerImpl(androidContext(), get()) }
     single<AppNotificationFactory> { AppNotificationFactoryImpl(androidContext()) }
     single<NetworkStateListener> { NetworkStateListenerImpl(androidContext(), get()) }
-    single { RegisterHandler(get(), get()) }
-    single { NotificationMessageHandler(get(), get(), get()) }
+    single { RegistrationHandler(get(), get()) }
+    single { NotificationMessageHandler(get(), get(), get(), get()) }
 }

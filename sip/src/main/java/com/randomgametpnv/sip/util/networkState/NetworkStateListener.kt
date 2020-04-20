@@ -9,4 +9,5 @@ interface NetworkStateListener {
 
     fun getStateListener(): LiveData<NetState>
     suspend fun waitActiveNetworkState(): Boolean
+    fun getInternetConnectionState(): Boolean
 }

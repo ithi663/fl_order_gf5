@@ -8,7 +8,7 @@ import android.os.IBinder
 import android.os.PowerManager
 import com.randomgametpnv.sip.entities.ServiceNotificationType
 import com.randomgametpnv.sip.entities.SipRegistrationState
-import com.randomgametpnv.sip.util.RegisterHandler
+import com.randomgametpnv.sip.util.RegistrationHandler
 import com.randomgametpnv.sip.util.networkState.NetworkStateListener
 import com.randomgametpnv.sip.util.networkState.NetworkStateListenerImpl
 import com.randomgametpnv.sip.util.notifications.AppNotificationFactory
@@ -16,10 +16,7 @@ import com.randomgametpnv.sip.util.notifications.AppNotificationFactoryImpl
 import com.randomgametpnv.sip.util.notifications.NotificationMessageHandler
 import com.randomgametpnv.sip.util.sip_manager.SipManager
 import com.randomgametpnv.sip.util.sip_manager.SipManagerImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import net.sourceforge.peers.Config
 import org.koin.core.KoinComponent
 
@@ -28,11 +25,12 @@ class CallService: Service(), KoinComponent {
 
 
     private lateinit var scope: CoroutineScope
+    private lateinit var config: CompletableDeferred<Config>
     private lateinit var networkStateListener: NetworkStateListener
     private lateinit var notificationFactory: AppNotificationFactory
     private lateinit var notificationMessageHandler: NotificationMessageHandler
     private lateinit var sipManager: SipManager
-    private lateinit var registerHandler: RegisterHandler
+    private lateinit var registrationHandler: RegistrationHandler
 
     private var wakeLock: PowerManager.WakeLock? = null
 
@@ -41,11 +39,12 @@ class CallService: Service(), KoinComponent {
     private fun initAllValues() {
 
         scope = CoroutineScope(Dispatchers.IO + Job())
+        config = CompletableDeferred()
         notificationFactory = AppNotificationFactoryImpl(this)
         sipManager = SipManagerImpl(this, scope)
-        networkStateListener = NetworkStateListenerImpl(this, scope)
-        registerHandler = RegisterHandler(networkStateListener, sipManager)
-        notificationMessageHandler = NotificationMessageHandler(sipManager, networkStateListener, notificationFactory)
+        registrationHandler = RegistrationHandler(sipManager, scope, config)
+        networkStateListener = NetworkStateListenerImpl(this, scope, registrationHandler)
+        notificationMessageHandler = NotificationMessageHandler(sipManager, networkStateListener, notificationFactory, registrationHandler)
     }
 
     inner class LocalBinder : android.os.Binder() {
@@ -63,9 +62,9 @@ class CallService: Service(), KoinComponent {
                 }
             }
 
-        val notification = notificationFactory.showServiceNotification(ServiceNotificationType.RegisteringWithActiveInternetConnection)
-        startForeground(mainNotifyId, notification)
         initAllValues()
+        val notification = notificationFactory.showServiceNotification(ServiceNotificationType.Registering)
+        startForeground(mainNotifyId, notification)
     }
 
 
@@ -88,14 +87,8 @@ class CallService: Service(), KoinComponent {
 
     fun openDoor() { TODO() }
 
-    fun checkRegistration(config: Config) {
-
-        val state = sipManager.getRegisterListener().value is SipRegistrationState.RegisteringSuccess
-        if(!state) {
-            scope.launch {
-                registerHandler.handleRegistration(config)
-            }
-        }
+    fun checkRegistration(userConfig: Config) {
+        config.complete(userConfig)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

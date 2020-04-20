@@ -11,12 +11,9 @@ class ServiceMainNotificationVIewFactory(val context: Context) {
 
     fun getView(serviceNotificationType: ServiceNotificationType): RemoteViews {
        return when(serviceNotificationType) {
-            is ServiceNotificationType.RegisteringWithActiveInternetConnection -> {
-              createServiceCustomVIew(null, true)
-            }
-            is ServiceNotificationType.RegisteringWithNoActiveInternetConnection -> {
-                createServiceCustomVIew(R.drawable.ic_internet_no, true)
-            }
+            is ServiceNotificationType.Registering -> {
+               createServiceCustomVIew(null, true)
+           }
             is ServiceNotificationType.NoActiveInternetConnection -> {
                 createServiceCustomVIew(R.drawable.ic_internet_no, false)
 

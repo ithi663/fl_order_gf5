@@ -35,6 +35,7 @@ class SipAudioManager : AbstractSoundManager() {
         recorder?.stop()
         recorder?.release()
 
+        if (player?.state == AudioTrack.STATE_UNINITIALIZED) return
         player?.stop()
         player?.release()
     }

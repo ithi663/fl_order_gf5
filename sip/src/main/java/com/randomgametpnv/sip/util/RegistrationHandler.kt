@@ -1,28 +1,44 @@
 package com.randomgametpnv.sip.util
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.randomgametpnv.sip.entities.ServiceNotificationType
 import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.util.networkState.NetworkStateListener
 import com.randomgametpnv.sip.util.sip_manager.SipManager
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import net.sourceforge.peers.Config
+import org.koin.ext.scope
 import java.util.concurrent.TimeUnit
 
-class RegisterHandler(private val networkStateListener: NetworkStateListener, private val sipManager: SipManager) {
+class RegistrationHandler(private val sipManager: SipManager, private val scope: CoroutineScope, private val config: Deferred<Config>) {
 
 
     private val regCount = 20
     private val registerTime = TimeUnit.SECONDS.toMillis(10)
+    val events = MutableLiveData<ServiceNotificationType>()
+    private var registerJob: Job? = null
 
-    suspend fun handleRegistration(config: Config) {
 
-        for (i: Int in 0..regCount) {
-            val res = tryRegister(config)
-            if (res) return@handleRegistration
-            delay(registerTime)
+    fun handleRegistration() {
+
+        registerJob?.cancel()
+
+        registerJob = scope.launch {
+
+            withContext(Dispatchers.Main) { events.value = ServiceNotificationType.Registering }
+            for (i: Int in 0..regCount) {
+                val res = tryRegister(config.await())
+                if (res) {
+                    withContext(Dispatchers.Main) {
+                        events.value = ServiceNotificationType.StatusOk
+                    }
+                    return@launch
+                }
+                delay(registerTime)
+            }
+
+            withContext(Dispatchers.Main) { events.value = ServiceNotificationType.StatusError }
         }
     }
 
@@ -30,7 +46,6 @@ class RegisterHandler(private val networkStateListener: NetworkStateListener, pr
     private suspend fun tryRegister(config: Config): Boolean {
 
         val res = CompletableDeferred<Boolean>()
-        networkStateListener.waitActiveNetworkState()
         val state = sipManager.register(config)
         withContext(Dispatchers.Main) {
             state.observeForever(object : Observer<SipRegistrationState> {

@@ -5,22 +5,7 @@
     android:viewportWidth="800"
     android:viewportHeight="800">
 
-  <path
-      android:pathData="M265.051,177.322 L2.418,439.955A400,400 0,0 0,294.109 785.279C419.369,660.02 488.711,590.678 583.559,495.83L539.32,451.59 670.055,320.855A382.415,382.415 0,0 0,308.018 220.289Z"
-      android:strokeAlpha="0.42"
-      android:fillAlpha="0.42">
-    <aapt:attr name="android:fillColor">
-      <gradient 
-          android:startY="301.8175"
-          android:startX="478.0716"
-          android:endY="584.0209"
-          android:endX="165.9814"
-          android:type="linear">
-        <item android:offset="0" android:color="#FF000000"/>
-        <item android:offset="1" android:color="#00000000"/>
-      </gradient>
-    </aapt:attr>
-  </path>
+
   <path
       android:pathData="M571.854,419.057A241.627,241.627 0,0 0,438.809 351.08l8.666,8.666a234.782,234.782 0,0 1,114.354 59.438l-27.457,27.457 -86.896,-86.895L583.559,495.83 539.32,451.59Z"
       android:fillColor="#43000000"/>
