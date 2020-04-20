@@ -19,7 +19,7 @@ val sipModule = module {
     single { CoroutineScope(Dispatchers.IO + Job()) }
     single<SipManager> { SipManagerImpl(androidContext(), get()) }
     single<AppNotificationFactory> { AppNotificationFactoryImpl(androidContext()) }
-    single<NetworkStateListener> { NetworkStateListenerImpl(androidContext(), get()) }
-    single { RegistrationHandler(get(), get()) }
+    single<NetworkStateListener> { NetworkStateListenerImpl(androidContext(), get(), get()) }
+    single { RegistrationHandler(get(), get(), get()) }
     single { NotificationMessageHandler(get(), get(), get(), get()) }
 }
