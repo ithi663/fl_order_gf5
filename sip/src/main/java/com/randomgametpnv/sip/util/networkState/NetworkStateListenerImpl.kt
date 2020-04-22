@@ -50,7 +50,6 @@ class NetworkStateListenerImpl(context: Context, val scope: CoroutineScope, val 
         .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build()
 
 
-    @SuppressLint("MissingPermission")
     private fun createCallBack(): NetworkCallback {
         return object : NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -59,8 +58,10 @@ class NetworkStateListenerImpl(context: Context, val scope: CoroutineScope, val 
                 scope.launch(Dispatchers.Main) {
                     stateListener.value = NetState.Active("internet", System.currentTimeMillis())
                 }
-                if (dnsAdress == netDns) { registerHandler.handleRegistration() }
-                dnsAdress  = netDns
+                registerHandler.handleRegistration()
+/*                if (dnsAdress != netDns) {
+                }
+                dnsAdress  = netDns*/
             }
 
             override fun onLost(network: Network) {

@@ -50,7 +50,7 @@ class AppNotificationFactoryImpl(private val context: Context): AppNotificationF
             .setOnlyAlertOnce(true)
             //.setContent(createCallCustomView())
             .setSmallIcon(R.drawable.ic_home)
-            .setContentTitle("Входящий вызов")
+            .setContentTitle(context.getString(R.string.incomint_call_text))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setFullScreenIntent(incomingCallPendingIntent, true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

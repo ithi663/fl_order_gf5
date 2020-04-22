@@ -15,7 +15,7 @@ class ServiceMainNotificationVIewFactory(val context: Context) {
                createServiceCustomVIew(null, true)
            }
             is ServiceNotificationType.NoActiveInternetConnection -> {
-                createServiceCustomVIew(R.drawable.ic_internet_no, false)
+                createServiceCustomVIew(R.drawable.ic_no_internet_connection, false)
 
             }
             is ServiceNotificationType.StatusOk -> {

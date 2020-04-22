@@ -8,15 +8,15 @@ import com.randomgametpnv.sip.util.notifications.AppNotificationFactoryImpl
 import com.randomgametpnv.sip.util.notifications.NotificationMessageHandler
 import com.randomgametpnv.sip.util.sip_manager.SipManager
 import com.randomgametpnv.sip.util.sip_manager.SipManagerImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
+import net.sourceforge.peers.Config
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val sipModule = module {
 
     single { CoroutineScope(Dispatchers.IO + Job()) }
+    single{ CompletableDeferred<Config>() }
     single<SipManager> { SipManagerImpl(androidContext(), get()) }
     single<AppNotificationFactory> { AppNotificationFactoryImpl(androidContext()) }
     single<NetworkStateListener> { NetworkStateListenerImpl(androidContext(), get(), get()) }

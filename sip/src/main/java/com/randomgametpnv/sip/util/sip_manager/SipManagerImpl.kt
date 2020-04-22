@@ -47,7 +47,7 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
                 withContext(Dispatchers.Main) {_sipRegistrationState.value = SipRegistrationState.StartNewRegistration(System.currentTimeMillis())}
                 Log.d(_tag, "registration start")
                 val logger: Logger = FileLogger(null)
-                userAgent = UserAgent(this@SipManagerImpl, config, logger, javaxSoundManager)
+                userAgent?: UserAgent(this@SipManagerImpl, config, logger, javaxSoundManager).also { userAgent = it }
                 userAgent?.register()
 
             } catch (e: SipUriSyntaxException) {
@@ -112,6 +112,7 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
         userAgent?.soundManager?.close()
         donDigidonService.stopPlaying()
         Log.d(_tag, "remoteHangup")
+        sipRequest = null
     }
 
     override fun ringing(p0: SipResponse?) {
@@ -138,6 +139,7 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
         }
         donDigidonService.stopPlaying()
         userAgent?.soundManager?.close()
+        sipRequest = null
         Log.d(_tag, "error")
     }
 
@@ -152,33 +154,29 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
             val callId = Utils.getMessageCallId(sipRequest)
             val dialogManager = userAgent?.dialogManager
             val dialog = dialogManager?.getDialog(callId)
-            donDigidonService.stopPlaying()
             userAgent?.acceptCall(sipRequest, dialog)
+            donDigidonService.stopPlaying()
         }
     }
 
-    override fun hangup() {
+
+    override fun endCall() {
         scope.launch {
             if (sipRequest == null) {
-                Log.d(_tag, "accept call -> sipRequest is null")
+                Log.d(_tag, "endCall() -> sipRequest is null")
                 return@launch
             }
-            donDigidonService.stopPlaying()
-            userAgent?.terminate(sipRequest)
-            //sipRequest = null
-        }
-    }
-
-    override fun reject() {
-        scope.launch {
-            if (sipRequest == null) {
-                Log.d(_tag, "accept call -> sipRequest is null")
-                return@launch
+            try {
+                when(_callState.value) {
+                    is SipCallState.IncomingCall -> { userAgent?.rejectCall(sipRequest) }
+                    is SipCallState.ActiveConversation -> { userAgent?.terminate(sipRequest) }
+                }
+                userAgent?.soundManager?.close()
+                donDigidonService.stopPlaying()
+            } catch (e: Throwable) {
+                Log.d(_tag, "endCall() -> error: $e")
             }
             withContext(Dispatchers.Main) {_callState.value = SipCallState.NoActiveState}
-            userAgent?.soundManager?.close()
-            donDigidonService.stopPlaying()
-            userAgent?.rejectCall(sipRequest)
         }
     }
 

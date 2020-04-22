@@ -8,6 +8,8 @@ import androidx.navigation.fragment.findNavController
 import com.randomgametpnv.main_screen.R
 import com.randomgametpnv.main_screen.ui.base.BaseModuleFragment
 import com.randomgametpnv.navigation.*
+import com.randomgametpnv.sip.util.checkAndAskForBatteryOptimization
+import com.randomgametpnv.sip.util.checkPermissions
 import com.randomgametpnv.sip.util.checkSipService
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -26,12 +28,14 @@ class HomeFragment : BaseModuleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        requireActivity().checkAndAskForBatteryOptimization()
+        requireActivity().checkPermissions()
         requireActivity().checkSipService (
             "tesst",
             "xxx27146",
             "sip.antisip.com"
         )
+
 
 
         helpButton.setOnClickListener {

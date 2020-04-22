@@ -35,8 +35,6 @@ class BillsFragment : BaseModuleFragment() {
 
         viewModel.getBillsFromApi().observe(this.viewLifecycleOwner, Observer {
 
-            Log.d("QWERTGH", "!!!!  $it")
-
             when(it) {
                 is ApiCall.Loading -> {
                     loading()

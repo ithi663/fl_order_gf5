@@ -40,6 +40,7 @@ class AllCamerasFragment : BaseModuleFragment(), AllCamerasRvAdapter.Interaction
         val topText = resources.getText(com.randomgametpnv.base.R.string.video).toString()
         this.initTopHeader(topText = "$topText" /*$cameraId*/, arrowVisibility = true, view = view)
 
+
         initRV()
         viewModel.res.observe(this.viewLifecycleOwner, Observer {
 

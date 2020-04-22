@@ -14,6 +14,5 @@ interface SipManager {
     fun unregister()
 
     fun accept()
-    fun reject()
-    fun hangup()
+    fun endCall()
 }

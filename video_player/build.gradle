@@ -1,0 +1,8 @@
+apply from: "../common_android_module.gradle"
+
+
+dependencies {
+
+    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
+    implementation project(":base")
+}

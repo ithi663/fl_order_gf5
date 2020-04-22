@@ -45,10 +45,8 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
         surfaceView = view.findViewById(R.id.surfaceView)
         mPlayerListener = MyPlayerListener(this)
 
-
         val cameraId = cameraId.cameraId
         val uri = "rtsp://admin:Bk173322@81.30.218.25:48554/pub/cam35";
-
 
         prepareVideoPlayer(uri)
     }
@@ -57,17 +55,15 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
 
         holder = surfaceView.holder
         val options = ArrayList<String>()
-        options.add("-vvv") // verbosity
+        options.add("-vvv")
         options.add("--aout=opensles")
         options.add("--network-caching=1500")
 
         //options.add("--audio-time-stretch") // time stretching
         //options.add("--avcodec-codec=h264")
 
-
         libvlc = LibVLC(requireContext(), options)
         holder?.setKeepScreenOn(true)
-
 
         // Create media player
         mMediaPlayer = MediaPlayer(libvlc)
@@ -82,7 +78,6 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
 
         mMediaPlayer.media = m
         mMediaPlayer.play()
-        mMediaPlayer
         updateSize()
     }
 
@@ -98,7 +93,6 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
     }
 
 
-
     fun updateSize() {
         val width = requireActivity().window.decorView.width
         val height = width / 16 * 9
@@ -109,7 +103,6 @@ class CameraFragment : BaseModuleFragment(), IVLCVout.Callback {
 
     override fun onSurfacesCreated(vlcVout: IVLCVout?) {}
     override fun onSurfacesDestroyed(vlcVout: IVLCVout?) {
-
         mMediaPlayer.setEventListener(null)
         releasePlayer()
     }

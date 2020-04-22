@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import android.util.Log
 import com.randomgametpnv.sip.entities.ServiceNotificationType
 import com.randomgametpnv.sip.entities.SipRegistrationState
 import com.randomgametpnv.sip.util.RegistrationHandler
@@ -78,14 +79,11 @@ class CallService: Service(), KoinComponent {
             }
             context.startService(startIntent)
         }
-
     }
 
     fun getCallEvents() = sipManager.getCallStateListener()
     fun pickUp() = sipManager.accept()
-    fun reject() = sipManager.reject()
-
-    fun openDoor() { TODO() }
+    fun endCall() = sipManager.endCall()
 
     fun checkRegistration(userConfig: Config) {
         config.complete(userConfig)

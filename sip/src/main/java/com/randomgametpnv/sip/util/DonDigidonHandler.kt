@@ -1,11 +1,10 @@
 package com.randomgametpnv.sip.util
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.media.Ringtone
 import android.media.RingtoneManager
-import android.os.VibrationEffect
 import android.os.Vibrator
+
 
 class DonDigidonHandler(private val context: Context) {
 
@@ -14,17 +13,24 @@ class DonDigidonHandler(private val context: Context) {
 
     fun callInvite() {
 
-        val vibService = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibService.vibrate(500)
+        try {
 
-        val ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-        ringtone = RingtoneManager.getRingtone(context, ringtoneUri)
-        ringtone?.play()
+            val vibService = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vibService.vibrate(500)
+            val ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+            ringtone = RingtoneManager.getRingtone(context, ringtoneUri)
+            ringtone?.play()
+        } catch (e: Throwable) { }
+
     }
 
     fun stopPlaying() {
 
-        ringtone?.stop()
-        vibeService?.cancel()
+        try {
+            ringtone?.stop()
+            vibeService?.cancel()
+            ringtone = null
+            vibeService = null
+        } catch (e: Throwable) { }
     }
 }

@@ -11,7 +11,7 @@ import net.sourceforge.peers.Config
 import org.koin.ext.scope
 import java.util.concurrent.TimeUnit
 
-class RegistrationHandler(private val sipManager: SipManager, private val scope: CoroutineScope, private val config: Deferred<Config>) {
+class RegistrationHandler(private val sipManager: SipManager, private val scope: CoroutineScope, private val config: CompletableDeferred<Config>) {
 
 
     private val regCount = 20

@@ -11,4 +11,4 @@ include ':help'
 include ':counters'
 include ':services'
 include ':database'
-
+include ':video_player'

@@ -7,13 +7,18 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
+import android.os.PowerManager
+import android.provider.Settings
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import com.randomgametpnv.sip.CallService
 import com.randomgametpnv.sip.util.sip_manager.CustomConfig
+
 
 @Suppress("DEPRECATION")
 fun Activity.checkSipService(login: String, pass: String, host: String) {
@@ -58,6 +63,7 @@ fun Activity.checkPermissions() {
         ),
         1012)
 
+
     /*if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.USE_SIP)
             != PackageManager.PERMISSION_GRANTED) {
@@ -77,4 +83,21 @@ fun Activity.checkPermissions() {
         }
     } else {
     }*/
+}
+
+fun Activity.checkAndAskForBatteryOptimization() {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        val isIgnoringBatteryOptimizations: Boolean =
+            pm.isIgnoringBatteryOptimizations(packageName)
+        if (!isIgnoringBatteryOptimizations) {
+            Log.d("QWEQWEQRQWE", "packageName-> $packageName")
+            val intent = Intent()
+            intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+            intent.data = Uri.parse("package:$packageName")
+            startActivityForResult(this, intent, 100, null)
+        }
+    }
 }

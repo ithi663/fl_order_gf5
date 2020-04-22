@@ -1,84 +1,75 @@
 package com.randomgametpnv.sip.ui
 
-import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
-import android.util.Log
+import android.view.View
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.example.video_player.AppVideoPlayer
+import com.randomgametpnv.base.R
+import com.randomgametpnv.base.initTopHeader
+import com.randomgametpnv.base.setInvisible
+import com.randomgametpnv.base.setVisible
 import com.randomgametpnv.sip.CallService
-import com.randomgametpnv.sip.R
+import com.randomgametpnv.sip.databinding.ActivityCallBinding
 import com.randomgametpnv.sip.entities.SipCallState
+import kotlinx.android.synthetic.main.activity_call.*
 
 
 class CallActivity : AppCompatActivity() {
 
-    var mBound = false
-    var service: CallService? = null
-    lateinit var wakeLock: PowerManager.WakeLock
-
+    private var mBound = false
+    private var service: CallService? = null
+    private lateinit var binding: ActivityCallBinding
+    private var appPlayer: AppVideoPlayer? = null
+    private var state: SipCallState? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_call)
+        binding = ActivityCallBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        this.initTopHeader(topText = getString(com.randomgametpnv.sip.R.string.sip_top_text), arrowVisibility = true, view = binding.root)
+
+        //init player
+        appPlayer = AppVideoPlayer(this, binding.surfaceView, binding.sipProgressBar)
+        appPlayer?.playVideo("rtsp://admin:Bk173322@81.30.218.25:48554/pub/cam35")
 
 
+        wakeLock()
+        initDisplayFullScr()
+        val intent = Intent(this, CallService::class.java)
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
 
-        Log.d("QWEIUQOWIUE", "start")
+        //init buttons
+        rejectButton.setOnClickListener { service?.endCall() }
+        answerCallButton.setOnClickListener {
+            when (service?.getCallEvents()?.value) {
+                is SipCallState.IncomingCall -> {service?.pickUp()}
+            }
+        }
+    }
 
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+    private fun initDisplayFullScr() {
 
         this.window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
                     WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
                     WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
-
-
-        wakeLock = wakeLock()
-
-        service?.getCallEvents()?.observe(this, Observer {
-
-            Log.d("QWEIUQOWIUE", "observe")
-
-            when (it) {
-                is SipCallState.IncomingCall -> {
-                    Log.d("QWEIUQOWIUE", "IncomingCall")
-                }
-                is SipCallState.ActiveConversation -> {}
-                is SipCallState.NoActiveState -> {
-                    Log.d("QWEIUQOWIUE", "end Call")
-                    wakeLock.release()
-                    finishAffinity()
-                }
-            }
-        })
     }
 
-    private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
-        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-            if (serviceClass.name == service.service.className) {
-                return true
-            }
-        }
-        return false
-    }
 
     private fun wakeLock(): PowerManager.WakeLock {
         return (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
@@ -88,19 +79,10 @@ class CallActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        if (!isMyServiceRunning(CallService::class.java)) {
-            CallService.startService(applicationContext)
-        }
-        val intent = Intent(this, CallService::class.java)
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
-    }
-
     override fun onStop() {
         super.onStop()
-        wakeLock.release()
+        appPlayer?.releaseAppPlayer()
+        service?.endCall()
         if (mBound) {
             unbindService(mConnection)
             mBound = false
@@ -108,19 +90,36 @@ class CallActivity : AppCompatActivity() {
     }
 
 
-
     private val mConnection = object : ServiceConnection {
-
-        override fun onServiceDisconnected(p0: ComponentName?) {
-            mBound = false
-        }
-
+        override fun onServiceDisconnected(p0: ComponentName?) { mBound = false }
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
             val localBinder = p1 as CallService.LocalBinder
-
             service = localBinder.service
+            service?.getCallEvents()?.observe(this@CallActivity, createCallListener())
             mBound = true
         }
     }
 
+    private fun createCallListener() = Observer<SipCallState> {
+        state = it
+        when (it) {
+            is SipCallState.IncomingCall -> { }
+            is SipCallState.ActiveConversation -> { }
+            is SipCallState.NoActiveState -> {
+                finish()
+            }
+        }
+    }
+
+
+    private fun initTopHeader(topText: String, arrowVisibility: Boolean, view: View) {
+
+        val arrow: ImageView = view.findViewById(R.id.backArrow)
+        val headText: TextView = view.findViewById(R.id.headText)
+
+        if (arrowVisibility) arrow.setVisible()
+        else arrow.setInvisible()
+        arrow.setOnClickListener { finish() }
+        headText.text = topText
+    }
 }
