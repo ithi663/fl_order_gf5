@@ -12,7 +12,7 @@ val mainModule = module {
 
     single<Retrofit>(named("retrofit")) {
         Retrofit.Builder()
-            .baseUrl("http://45.84.224.11/api/v1/")
+            .baseUrl("https://ud5.2242000.ru/api/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

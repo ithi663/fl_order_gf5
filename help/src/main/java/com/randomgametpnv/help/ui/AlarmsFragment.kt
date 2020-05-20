@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.base.setInvisible
 import com.randomgametpnv.base.setVisible
 import com.randomgametpnv.base.showErrorMessage
@@ -32,6 +33,9 @@ class AlarmsFragment : BaseModuleFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val topText = resources.getText(com.randomgametpnv.base.R.string.services).toString()
+        this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
         createAdapter()
         viewModel.getAlarms().observe(this.viewLifecycleOwner, Observer {

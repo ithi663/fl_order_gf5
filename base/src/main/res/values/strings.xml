@@ -5,6 +5,7 @@
     <string name="auth">Авторизация</string>
     <string name="voting">Голосование</string>
     <string name="services">Услуги</string>
+    <string name="crash">Авария</string>
     <string name="bills">Счета и Платежи</string>
     <string name="help">Помощь</string>
     <string name="security">Охрана</string>
