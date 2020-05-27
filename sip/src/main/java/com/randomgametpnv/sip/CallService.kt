@@ -84,6 +84,7 @@ class CallService: Service(), KoinComponent {
     fun getCallEvents() = sipManager.getCallStateListener()
     fun pickUp() = sipManager.accept()
     fun endCall() = sipManager.endCall()
+    fun open() = sipManager.open();
 
     fun checkRegistration(userConfig: Config) {
         config.complete(userConfig)

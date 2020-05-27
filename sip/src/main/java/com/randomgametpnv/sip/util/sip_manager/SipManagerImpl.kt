@@ -30,10 +30,10 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
     override fun getCallStateListener() = _callState
     override fun getRegisterListener() = _sipRegistrationState
 
-    private var userAgent: UserAgent? = null
-    private var donDigidonService = DonDigidonHandler(context)
-    private var javaxSoundManager: SipAudioManager = SipAudioManager()
-    private var sipRequest: SipRequest? = null
+    private var _userAgent: UserAgent? = null
+    private var _donDigidonService = DonDigidonHandler(context)
+    private var _javaxSoundManager: SipAudioManager = SipAudioManager()
+    private var _sipRequest: SipRequest? = null
 
 
     init {
@@ -47,8 +47,8 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
                 withContext(Dispatchers.Main) {_sipRegistrationState.value = SipRegistrationState.StartNewRegistration(System.currentTimeMillis())}
                 Log.d(_tag, "registration start")
                 val logger: Logger = FileLogger(null)
-                userAgent?: UserAgent(this@SipManagerImpl, config, logger, javaxSoundManager).also { userAgent = it }
-                userAgent?.register()
+                _userAgent?: UserAgent(this@SipManagerImpl, config, logger, _javaxSoundManager).also { _userAgent = it }
+                _userAgent?.register()
 
             } catch (e: SipUriSyntaxException) {
                 withContext(Dispatchers.Main) {_sipRegistrationState.value = SipRegistrationState.RegisteringError()}
@@ -61,15 +61,24 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
     override fun unregister() {
         _sipRegistrationState.value = SipRegistrationState.Unreg()
         scope.launch {
-            userAgent?.unregister()
+            _userAgent?.unregister()
+        }
+    }
+
+    override fun open() {
+        scope.launch {
+            try {
+                _userAgent?.mediaManager?.sendDtmf('*')
+            } catch (e: Throwable) {
+                Log.d(_tag, "dtmf error: $e")
+            }
         }
     }
 
 
-
     override fun registerSuccessful(p0: SipResponse?) {
         scope.launch(Dispatchers.Main) {
-            if (userAgent?.isRegistered == true){
+            if (_userAgent?.isRegistered == true){
                 _sipRegistrationState.value = SipRegistrationState.RegisteringSuccess()
             } else {
                 _sipRegistrationState.value = SipRegistrationState.Unreg()
@@ -100,26 +109,28 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
             )
         }
         Log.d(_tag, "incomingCall")
-        sipRequest = p0
-        userAgent?.soundManager?.init()
-        donDigidonService.callInvite()
+        _sipRequest = p0
+        _userAgent?.soundManager?.init()
+        _donDigidonService.callInvite()
     }
 
     override fun remoteHangup(p0: SipRequest?) {
+
         scope.launch(Dispatchers.Main) {
             _callState.value = SipCallState.NoActiveState
         }
-        userAgent?.soundManager?.close()
-        donDigidonService.stopPlaying()
+
+        _userAgent?.soundManager?.close()
+        _donDigidonService.stopPlaying()
         Log.d(_tag, "remoteHangup")
-        sipRequest = null
+        _sipRequest = null
     }
 
     override fun ringing(p0: SipResponse?) {
 /*        scope.launch(Dispatchers.Main) {
             _state.value = SipCallState.Ringing("!!")
         }*/
-        userAgent?.soundManager?.init()
+        _userAgent?.soundManager?.init()
         Log.d(_tag, "ringing")
     }
 
@@ -137,9 +148,9 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
         scope.launch(Dispatchers.Main) {
             _callState.value = SipCallState.NoActiveState
         }
-        donDigidonService.stopPlaying()
-        userAgent?.soundManager?.close()
-        sipRequest = null
+        _donDigidonService.stopPlaying()
+        _userAgent?.soundManager?.close()
+        _sipRequest = null
         Log.d(_tag, "error")
     }
 
@@ -147,32 +158,32 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
     override fun accept() {
         Log.d(_tag, "accept call -> invoke")
         scope.launch {
-            if (sipRequest == null) {
+            if (_sipRequest == null) {
                 Log.d(_tag, "accept call -> sipRequest is null")
                 return@launch
             }
-            val callId = Utils.getMessageCallId(sipRequest)
-            val dialogManager = userAgent?.dialogManager
+            val callId = Utils.getMessageCallId(_sipRequest)
+            val dialogManager = _userAgent?.dialogManager
             val dialog = dialogManager?.getDialog(callId)
-            userAgent?.acceptCall(sipRequest, dialog)
-            donDigidonService.stopPlaying()
+            _userAgent?.acceptCall(_sipRequest, dialog)
+            _donDigidonService.stopPlaying()
         }
     }
 
 
     override fun endCall() {
         scope.launch {
-            if (sipRequest == null) {
+            if (_sipRequest == null) {
                 Log.d(_tag, "endCall() -> sipRequest is null")
                 return@launch
             }
             try {
                 when(_callState.value) {
-                    is SipCallState.IncomingCall -> { userAgent?.rejectCall(sipRequest) }
-                    is SipCallState.ActiveConversation -> { userAgent?.terminate(sipRequest) }
+                    is SipCallState.IncomingCall -> { _userAgent?.rejectCall(_sipRequest) }
+                    is SipCallState.ActiveConversation -> { _userAgent?.terminate(_sipRequest) }
                 }
-                userAgent?.soundManager?.close()
-                donDigidonService.stopPlaying()
+                _userAgent?.soundManager?.close()
+                _donDigidonService.stopPlaying()
             } catch (e: Throwable) {
                 Log.d(_tag, "endCall() -> error: $e")
             }
@@ -180,6 +191,7 @@ class SipManagerImpl(val context: Context, private val scope: CoroutineScope) : 
         }
     }
 
+    //для вызова(пака не используется)
 /*    fun call(sipNumber: String) {
         scope.launch {
             userAgent?.soundManager?.init()

@@ -13,6 +13,8 @@ interface SipManager {
     fun register(config: Config): LiveData<SipRegistrationState>
     fun unregister()
 
+    fun open()
+
     fun accept()
     fun endCall()
 }

@@ -56,6 +56,10 @@ class CallActivity : AppCompatActivity() {
                 is SipCallState.IncomingCall -> {service?.pickUp()}
             }
         }
+
+        openDoorButton.setOnClickListener {
+            service?.open()
+        }
     }
 
     private fun initDisplayFullScr() {
