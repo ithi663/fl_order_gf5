@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 dependencies {
 
     implementation project(":base")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(":common_value_objects")
     implementation project(":navigation")
     implementation project(":database")

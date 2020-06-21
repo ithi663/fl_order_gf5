@@ -4,6 +4,7 @@ import android.util.Log
 import com.randomgametpnv.common_value_objects.ApiCall
 import kotlinx.coroutines.flow.flow
 import java.net.ConnectException
+import java.net.UnknownHostException
 
 class NetImpl(private val api: Api): Net {
 
@@ -14,8 +15,10 @@ class NetImpl(private val api: Api): Net {
             val data = ApiCall.Success(api.call(userName, pass))
             emit(data)
         } catch (e: Throwable) {
+
             when (e) {
                 is ConnectException -> {emit(ApiCall.ConnectException)}
+                is UnknownHostException -> {emit(ApiCall.ConnectException)}
                 else -> {emit(ApiCall.ResponseError(0, e.message))}
             }
         }

@@ -3,13 +3,16 @@ package com.randomgametpnv.order80202.ui
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import com.randomgametpnv.base.setInvisible
+import com.randomgametpnv.base.setVisible
+import com.randomgametpnv.main_screen.ui.utils.ControllerBundleKey
+import com.randomgametpnv.main_screen.ui.utils.ControllerType
 import com.randomgametpnv.order80202.R
-import com.randomgametpnv.sip.util.checkAndAskForBatteryOptimization
-import com.randomgametpnv.sip.util.checkPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_footer.*
 import kotlinx.android.synthetic.main.main_scr.*
@@ -37,24 +40,24 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
             when (destination.id) {
-                R.id.loginFragment -> {
-                    showLogin()
-                }
-                R.id.homeFragment -> {
-                    showHome()
-                }
-                else -> {
-                    showMain()
-                }
+                R.id.launchFragment -> { launch() }
+                R.id.loginFragment -> { showLogin() }
+                R.id.homeFragment -> { showHome() }
+                else -> { showMain() }
             }
         }
+        initBottomNavigation()
+    }
 
-        initInitBottomNavigation()
+
+    private fun launch() {
+        include13.setInvisible()
     }
 
     private fun showLogin() {
         main_layout.setBackgroundResource(R.drawable.launch_img)
         lifecycleScope.launch {
+            include13.setVisible()
             delay(15)
             home_include.visibility = View.INVISIBLE
             main_include.visibility = View.INVISIBLE
@@ -65,6 +68,7 @@ class MainActivity : AppCompatActivity() {
     private fun showHome() {
         lifecycleScope.launch {
             main_layout.setBackgroundResource(R.drawable.launch_img1)
+            include13.setVisible()
             delay(15)
             home_include.visibility = View.VISIBLE
             main_include.visibility = View.INVISIBLE
@@ -74,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMain() {
         lifecycleScope.launch {
+            include13.setVisible()
             delay(15)
             home_include.visibility = View.INVISIBLE
             main_include.visibility = View.VISIBLE
@@ -81,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initInitBottomNavigation() {
+    private fun initBottomNavigation() {
 
         cameraButton_b.setOnClickListener {
             navController.navigate(
@@ -93,14 +98,14 @@ class MainActivity : AppCompatActivity() {
         securityButton_b.setOnClickListener {
             navController.navigate(
                 R.id.securityFragment,
-                null,
+                bundleOf(ControllerBundleKey.ControllerType.name to ControllerType.SECURITY.name),
                 bottomNavOptions
             )
         }
         controlButton_b.setOnClickListener {
             navController.navigate(
-                R.id.controlFragment,
-                null,
+                R.id.securityFragment,
+                bundleOf(ControllerBundleKey.ControllerType.name to ControllerType.POWER.name),
                 bottomNavOptions
             )
         }

@@ -1,5 +1,6 @@
 package com.randomgametpnv.services.di
 
+import com.randomgametpnv.common_value_objects.ShareDiEnum
 import com.randomgametpnv.services.net.ServicesApi
 import com.randomgametpnv.services.net.ServicesNet
 import com.randomgametpnv.services.net.ServicesNetImpl
@@ -10,12 +11,12 @@ import retrofit2.Retrofit
 
 val servicesModule = module {
 
-    single<ServicesApi>(named("servicesApiCall")) { get<Retrofit>(named("retrofit")).create(ServicesApi::class.java) }
+    single<ServicesApi>(named("servicesApiCall")) { get<Retrofit>(named(ShareDiEnum.RETROFIT)).create(ServicesApi::class.java) }
     single<ServicesNet>(named("servicesNet")) { ServicesNetImpl(get(named("servicesApiCall"))) }
 
     factory {
         ServicesViewModelFactory(
-            get(named("database")),
+            get(named(ShareDiEnum.DATABASE)),
             get(named("servicesNet"))
         )
     }

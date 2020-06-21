@@ -2,5 +2,8 @@
 
     <string name="loginTex"> Логин</string>
     <string name="passText"> Пароль</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="smarthouse">SmartHouse</string>
 
 </resources>

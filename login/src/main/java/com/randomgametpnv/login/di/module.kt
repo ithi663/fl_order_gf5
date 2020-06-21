@@ -1,5 +1,6 @@
 package com.randomgametpnv.login.di
 
+import com.randomgametpnv.common_value_objects.ShareDiEnum
 import com.randomgametpnv.login.LoginViewModel
 import com.randomgametpnv.login.net.Api
 import com.randomgametpnv.login.net.Net
@@ -11,8 +12,7 @@ import retrofit2.Retrofit
 
 val loginModule = module {
 
-    single<Api>(named("loginApiCall")) { get<Retrofit>(named("retrofit")).create(Api::class.java) }
+    single<Api>(named("loginApiCall")) { get<Retrofit>(named(ShareDiEnum.RETROFIT)).create(Api::class.java) }
     single<Net>(named("loginNet")) { NetImpl(get(named("loginApiCall"))) }
-
-    viewModel { LoginViewModel(get(named("loginNet"))) }
+    viewModel { LoginViewModel(get(named("loginNet")), get(named(ShareDiEnum.DATABASE))) }
 }

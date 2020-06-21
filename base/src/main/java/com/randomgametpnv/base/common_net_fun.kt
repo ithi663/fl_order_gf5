@@ -1,5 +1,6 @@
 package com.randomgametpnv.base
 
+import android.util.Log
 import com.randomgametpnv.common_value_objects.ApiCall
 import com.randomgametpnv.database.UserData
 import java.net.ConnectException

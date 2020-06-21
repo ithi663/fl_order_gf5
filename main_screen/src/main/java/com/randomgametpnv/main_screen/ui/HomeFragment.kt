@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.randomgametpnv.main_screen.R
 import com.randomgametpnv.main_screen.ui.base.BaseModuleFragment
+import com.randomgametpnv.main_screen.ui.utils.ControllerBundleKey
+import com.randomgametpnv.main_screen.ui.utils.ControllerType
 import com.randomgametpnv.navigation.*
 import com.randomgametpnv.sip.util.checkAndAskForBatteryOptimization
 import com.randomgametpnv.sip.util.checkPermissions
@@ -20,7 +23,6 @@ class HomeFragment : BaseModuleFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -36,13 +38,11 @@ class HomeFragment : BaseModuleFragment() {
             "sip.antisip.com"
         )
 
-/*
-        requireActivity().checkSipService (
+/*        requireActivity().checkSipService (
             "kyjw",
             "hh6a",
             "office2.2242000.ru:5060"
-        )
-*/
+        )*/
 
 
         helpButton.setOnClickListener {
@@ -62,12 +62,12 @@ class HomeFragment : BaseModuleFragment() {
 
         securityButton.setOnClickListener {
             val navInt = activity?.actionHomeFragmentToSecurityFragment()?: return@setOnClickListener
-            findNavController().navigate(navInt)
+            findNavController().navigate(navInt, bundleOf(ControllerBundleKey.ControllerType.name to ControllerType.SECURITY.name))
         }
 
         controlButton.setOnClickListener {
-            val navId = activity?.actionHomeFragmentToControlFragment()?: return@setOnClickListener
-            findNavController().navigate(navId)
+            val navId = activity?.actionHomeFragmentToSecurityFragment()?: return@setOnClickListener
+            findNavController().navigate(navId, bundleOf(ControllerBundleKey.ControllerType.name to ControllerType.POWER.name))
         }
 
         cameraButton.setOnClickListener {

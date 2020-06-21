@@ -6,7 +6,7 @@ ext {
     def kotlinx_coroutines = '1.3.0-M2'
     def lifecycle_version = '2.2.0-alpha01'
     def room_version = "2.2.1"
-    def koin_version = '2.1.0-alpha-10'
+    def koin_version = '2.1.6'
     def nav_version = "2.2.1"
     def glide_version = "4.10.0"
     def preference_version = "1.1.0-alpha05"

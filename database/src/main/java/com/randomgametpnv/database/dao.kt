@@ -18,4 +18,14 @@ interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addUser(user: UserData)
+
+    //login data
+    @Query("SELECT * FROM login_data")
+    fun getSavedLoginData(): UserRegData?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveLoginData(data: UserRegData)
+
+    @Query("DELETE FROM login_data WHERE id = 0")
+    suspend fun deleteLoginData()
 }

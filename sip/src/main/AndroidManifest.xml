@@ -25,6 +25,7 @@
         </service>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".ui.CallActivity"
             android:theme="@style/AppTheme.Launcher"
             >

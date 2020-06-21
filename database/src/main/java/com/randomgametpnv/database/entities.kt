@@ -11,3 +11,11 @@ data class UserData(
     var accessToken: String,
     var tokenType: String
 )
+
+@Entity(tableName = "login_data")
+data class UserRegData(
+    @PrimaryKey
+    var id: Int = 0,
+    var login: String,
+    var pass: String
+)

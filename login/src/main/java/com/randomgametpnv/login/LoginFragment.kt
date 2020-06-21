@@ -18,8 +18,9 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
 
-    private val viewModel: LoginViewModel by viewModel()
-    private val sharedViewModel: MainViewModel by sharedViewModel()
+    private val viewModel: LoginViewModel by sharedViewModel()
+    private var userLogin: String? = null
+    private var userPass: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,9 +56,9 @@ class LoginFragment : Fragment() {
         })
 
         loginButton.setOnClickListener {
-            val userName = editTextTextPersonName.text.toString()
-            val pass = editTextTextPassword.text.toString()
-            viewModel.login(userName, pass)
+            userLogin = editTextTextPersonName.text.toString()
+            userPass = editTextTextPassword.text.toString()
+            viewModel.login(userLogin!!, userPass!!)
         }
 
 
@@ -83,7 +84,6 @@ class LoginFragment : Fragment() {
 
     private fun successLogin(data: LoginEntities) {
 
-        sharedViewModel.saveUserData(data.accessToken, data.tokenType)
         val navId = activity?.actionLoginFragmentToHomeFragmentId() ?: return
         findNavController().navigate(navId)
     }
