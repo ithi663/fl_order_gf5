@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
 
-        //window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-
         navController = findNavController(R.id.fragment)
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
@@ -52,6 +50,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun launch() {
         include13.setInvisible()
+        home_include.visibility = View.INVISIBLE
+        main_include.visibility = View.INVISIBLE
+        login_include.visibility = View.INVISIBLE
     }
 
     private fun showLogin() {

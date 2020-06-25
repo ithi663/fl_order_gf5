@@ -77,4 +77,6 @@ ext {
     preference1 = "androidx.preference:preference-ktx:$preference_version"
 
     paging = "androidx.paging:paging-runtime:$paging_version"
+
+    javaX = 'javax.mail:mail:1.4.7'
 }

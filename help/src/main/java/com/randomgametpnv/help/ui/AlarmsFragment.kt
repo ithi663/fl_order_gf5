@@ -1,67 +1,59 @@
 package com.randomgametpnv.help.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
+import com.randomgametpnv.base.GMailSender
 import com.randomgametpnv.base.initTopHeader
-import com.randomgametpnv.base.setInvisible
-import com.randomgametpnv.base.setVisible
-import com.randomgametpnv.base.showErrorMessage
-import com.randomgametpnv.common_value_objects.ApiCall
 
 import com.randomgametpnv.help.R
 import com.randomgametpnv.help.ui.adapter.AlarmsRvAdapter
 import com.randomgametpnv.help.ui.base.BaseModuleFragment
-import kotlinx.android.synthetic.main.fragment_alarms.*
+import kotlinx.android.synthetic.main.fragment_message.*
 
 class AlarmsFragment : BaseModuleFragment() {
 
-
-    var adapter: AlarmsRvAdapter? = null
+    lateinit var topText: String
+    val nagArgs: AlarmsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_alarms, container, false)
+        return inflater.inflate(R.layout.fragment_message, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val topText = resources.getText(com.randomgametpnv.base.R.string.services).toString()
+        topText = when(nagArgs.messageType) {
+            TypeMessage.ALARM -> {"Авария"}
+            TypeMessage.MESSAGE_TO_YK -> {"Сообщение в УК"}
+            TypeMessage.REQUEST -> {"Заказ пропуска"}
+        }
+
+        val topText = resources.getText(R.string.crash).toString()
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
-        createAdapter()
-        viewModel.getAlarms().observe(this.viewLifecycleOwner, Observer {
-            when (it) {
-                is ApiCall.Success -> {
-                    alarmProgress.setInvisible()
-                    adapter?.submitList(it.data)
-                }
-                is ApiCall.ResponseError -> {
-                    alarmProgress.setInvisible()
-                    showErrorMessage(it)
-                }
-                is ApiCall.Loading -> {
-                    alarmProgress.setVisible()
-                }
-                is ApiCall.ConnectException -> {
-                    alarmProgress.setInvisible()
-                    showErrorMessage(it)
-                }
-            }
+        discButton.setOnClickListener {
+            sendEmail()
+        }
+    }
+
+
+    private fun sendEmail() {
+        viewModel.getUseLogin().observe(this.viewLifecycleOwner, Observer {
+            GMailSender("test123test123qwert1@gmail.com", "test123test123")
+                .sendMail("${topText}", discText.text.toString(), "ithi663@gmail.com")
         })
     }
+}
 
-    private fun createAdapter() {
-
-        alarmRv.adapter = adapter?: AlarmsRvAdapter().also { adapter = it }
-        alarmRv.layoutManager = LinearLayoutManager(this.requireContext())
-    }
+enum class TypeMessage {
+    ALARM, MESSAGE_TO_YK, REQUEST
 }

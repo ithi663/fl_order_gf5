@@ -4,7 +4,12 @@ apply from: "../common_android_module.gradle"
 dependencies {
 
     implementation project(":database")
+    api files('libs/mail.jar')
+    api files('libs/additionnal.jar')
+    api files('libs/activation.jar')
     implementation project(":common_value_objects")
+//    implementation 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
+//    implementation 'org.apache.httpcomponents:httpcore:4.4.10'
     implementation glide
     kapt glide_compiler
 }

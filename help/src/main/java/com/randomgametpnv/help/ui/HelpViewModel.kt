@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HelpViewModel(private val database: AppDatabase, private val helpNet: HelpNet) : ViewModel() {
 
@@ -47,7 +48,7 @@ class HelpViewModel(private val database: AppDatabase, private val helpNet: Help
             }
     }
 
-    fun getAlarms() = liveData {
+/*    fun getAlarms() = liveData {
 
         val header = requestHeader.await() ?: return@liveData
         helpNet
@@ -56,7 +57,7 @@ class HelpViewModel(private val database: AppDatabase, private val helpNet: Help
             .collect {
                 emit(it)
             }
-    }
+    }*/
 
     fun getAllVotes() = liveData {
 
@@ -75,5 +76,10 @@ class HelpViewModel(private val database: AppDatabase, private val helpNet: Help
             .collect {
                 _submitVoteRez.value = it
             }
+    }
+
+    fun getUseLogin() = liveData {
+        val data = withContext(Dispatchers.IO) {database.userDao().getSavedLoginData()?.login?: ""}
+        emit(data)
     }
 }

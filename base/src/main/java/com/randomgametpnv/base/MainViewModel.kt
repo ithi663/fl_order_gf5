@@ -1,5 +1,6 @@
 package com.randomgametpnv.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(private val database: AppDatabase) : ViewModel() {
-
-
 
     fun saveUserData(accessToken: String, tokenType: String) {
 

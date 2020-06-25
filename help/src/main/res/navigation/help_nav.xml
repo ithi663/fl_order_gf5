@@ -42,5 +42,9 @@
         android:id="@+id/alarmsFragment"
         android:name="com.randomgametpnv.help.ui.AlarmsFragment"
         android:label="fragment_alarms"
-        tools:layout="@layout/fragment_alarms" />
+        tools:layout="@layout/fragment_message" >
+        <argument
+            android:name="messageType"
+            app:argType="com.randomgametpnv.help.ui.TypeMessage" />
+    </fragment>
 </navigation>
