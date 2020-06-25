@@ -11,8 +11,8 @@ import retrofit2.Retrofit
 
 val servicesModule = module {
 
-    single<ServicesApi>(named("servicesApiCall")) { get<Retrofit>(named(ShareDiEnum.RETROFIT)).create(ServicesApi::class.java) }
-    single<ServicesNet>(named("servicesNet")) { ServicesNetImpl(get(named("servicesApiCall"))) }
+    factory<ServicesApi>(named("servicesApiCall")) { get<Retrofit>(named(ShareDiEnum.RETROFIT)).create(ServicesApi::class.java) }
+    factory<ServicesNet>(named("servicesNet")) { ServicesNetImpl(get(named("servicesApiCall"))) }
 
     factory {
         ServicesViewModelFactory(

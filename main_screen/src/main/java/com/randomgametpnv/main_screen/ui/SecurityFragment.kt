@@ -203,7 +203,7 @@ class SecurityFragment : BaseModuleFragment() {
     }
 
     private fun handleLongPressStart() {
-        if (uiEvents.value == UiStatus.LONG_PRESS_START) return
+        if (uiEvents.value == UiStatus.LONG_PRESS_START || uiEvents.value == UiStatus.LOADING) return
         pressScope?.cancel()
         pressScope = lifecycleScope.launch {
             longPress = true

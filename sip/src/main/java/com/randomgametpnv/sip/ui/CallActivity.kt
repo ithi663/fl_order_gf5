@@ -7,12 +7,14 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.example.video_player.AppVideoPlayer
 import com.randomgametpnv.base.R
 import com.randomgametpnv.base.initTopHeader
@@ -22,15 +24,21 @@ import com.randomgametpnv.sip.CallService
 import com.randomgametpnv.sip.databinding.ActivityCallBinding
 import com.randomgametpnv.sip.entities.SipCallState
 import kotlinx.android.synthetic.main.activity_call.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.android.scope.scope
 
 
 class CallActivity : AppCompatActivity() {
 
     private var mBound = false
+    private var incomingCall = false
     private var service: CallService? = null
     private lateinit var binding: ActivityCallBinding
     private var appPlayer: AppVideoPlayer? = null
     private var state: SipCallState? = null
+    private var endJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +50,6 @@ class CallActivity : AppCompatActivity() {
         //init player
         appPlayer = AppVideoPlayer(this, binding.surfaceView, binding.sipProgressBar)
         appPlayer?.playVideo("rtsp://admin:Bk173322@81.30.218.25:48554/pub/cam35")
-
 
         wakeLock()
         initDisplayFullScr()
@@ -56,7 +63,6 @@ class CallActivity : AppCompatActivity() {
                 is SipCallState.IncomingCall -> {service?.pickUp()}
             }
         }
-
         openDoorButton.setOnClickListener {
             service?.open()
         }
@@ -85,6 +91,18 @@ class CallActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        Log.d("GJGJGJ", "onStop()")
+/*        appPlayer?.releaseAppPlayer()
+        service?.endCall()
+        if (mBound) {
+            unbindService(mConnection)
+            mBound = false
+        }*/
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("GJGJGJ", "onDestroy()")
         appPlayer?.releaseAppPlayer()
         service?.endCall()
         if (mBound) {
@@ -92,7 +110,6 @@ class CallActivity : AppCompatActivity() {
             mBound = false
         }
     }
-
 
     private val mConnection = object : ServiceConnection {
         override fun onServiceDisconnected(p0: ComponentName?) { mBound = false }
@@ -107,10 +124,17 @@ class CallActivity : AppCompatActivity() {
     private fun createCallListener() = Observer<SipCallState> {
         state = it
         when (it) {
-            is SipCallState.IncomingCall -> { }
+            is SipCallState.IncomingCall -> {
+                incomingCall = true
+            }
             is SipCallState.ActiveConversation -> { }
             is SipCallState.NoActiveState -> {
-                finish()
+                lifecycleScope.launch {
+                    if (incomingCall) {
+                        delay(1000)
+                        finish()
+                    }
+                }
             }
         }
     }
@@ -123,7 +147,10 @@ class CallActivity : AppCompatActivity() {
 
         if (arrowVisibility) arrow.setVisible()
         else arrow.setInvisible()
-        arrow.setOnClickListener { finish() }
+        arrow.setOnClickListener {
+            service?.endCall()
+            finish()
+        }
         headText.text = topText
     }
 }
