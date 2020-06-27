@@ -46,18 +46,18 @@ class HelpFragment : BaseModuleFragment() {
         }
 
         crashButton.setOnClickListener {
-            HelpFragmentDirections.actionHelpFragmentToAlarmsFragment(TypeMessage.ALARM)
-            findNavController().navigate(R.id.action_helpFragment_to_alarmsFragment)
+            val action = HelpFragmentDirections.actionHelpFragmentToAlarmsFragment(TypeMessage.ALARM)
+            findNavController().navigate(action)
         }
 
-        crashButton.setOnClickListener {
-            HelpFragmentDirections.actionHelpFragmentToAlarmsFragment(TypeMessage.MESSAGE_TO_YK)
-            findNavController().navigate(R.id.action_helpFragment_to_alarmsFragment)
+        messageButton.setOnClickListener {
+            val action = HelpFragmentDirections.actionHelpFragmentToAlarmsFragment(TypeMessage.MESSAGE_TO_YK)
+            findNavController().navigate(action)
         }
 
-        crashButton.setOnClickListener {
-            HelpFragmentDirections.actionHelpFragmentToAlarmsFragment(TypeMessage.REQUEST)
-            findNavController().navigate(R.id.action_helpFragment_to_alarmsFragment)
+        orderButton.setOnClickListener {
+            val action = HelpFragmentDirections.actionHelpFragmentToAlarmsFragment(TypeMessage.REQUEST)
+            findNavController().navigate(action)
         }
     }
 }

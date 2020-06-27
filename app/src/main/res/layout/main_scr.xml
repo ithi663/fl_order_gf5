@@ -25,13 +25,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/camera_button_b_background"
-        app:layout_constraintBottom_toBottomOf="@+id/discBack"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/securityButton_b"
         app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toEndOf="@+id/discBack"
-        app:layout_constraintStart_toStartOf="@+id/discBack"
-        app:layout_constraintTop_toTopOf="@+id/discBack" />
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view" />
 
     <Button
         android:id="@+id/securityButton_b"

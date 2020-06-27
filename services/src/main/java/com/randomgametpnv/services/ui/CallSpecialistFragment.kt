@@ -15,7 +15,9 @@ import com.randomgametpnv.services.databinding.FragmentCallSpecialistBinding
 import com.randomgametpnv.services.entities.SpecialistType
 import kotlinx.android.synthetic.main.fragment_call_specialist.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class CallSpecialistFragment : BaseModuleFragment() {
@@ -52,9 +54,16 @@ class CallSpecialistFragment : BaseModuleFragment() {
 
 
     private fun sendEmail() {
+        if (binding.discText.text.toString() == "") return
         viewModel.getUseLogin().observe(this.viewLifecycleOwner, Observer {
-            GMailSender("test123test123qwert1@gmail.com", "test123test123")
-                .sendMail("$it: вызов ${topText}:", binding.discText.text.toString(), "ithi663@gmail.com")
+            lifecycleScope.launch(Dispatchers.IO) {
+                GMailSender("test123test123qwert1@gmail.com", "test123test123")
+                    .sendMail("$it: ${topText}", binding.discText.text.toString()+".", "2660103@bk.ru")
+                delay(1000)
+                withContext(Dispatchers.Main) {
+                    discText.setText("")
+                }
+            }
         })
     }
 }

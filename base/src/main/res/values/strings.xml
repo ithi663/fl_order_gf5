@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartHouse</string>
+    <string name="app_name">В DomQ</string>
 
     <string name="get_the_password_in">Пароль получите в УК</string>
     <string name="auth">Авторизация</string>

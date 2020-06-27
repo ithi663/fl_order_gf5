@@ -1,5 +1,6 @@
 package com.randomgametpnv.help.ui
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.randomgametpnv.base.createRequestHeader
 import com.randomgametpnv.common_value_objects.ApiCall
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 class HelpViewModel(private val database: AppDatabase, private val helpNet: HelpNet) : ViewModel() {
 

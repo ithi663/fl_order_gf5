@@ -1,19 +1,24 @@
 package com.randomgametpnv.help.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.navigation.NavArgs
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.randomgametpnv.base.GMailSender
 import com.randomgametpnv.base.initTopHeader
 
 import com.randomgametpnv.help.R
-import com.randomgametpnv.help.ui.adapter.AlarmsRvAdapter
 import com.randomgametpnv.help.ui.base.BaseModuleFragment
 import kotlinx.android.synthetic.main.fragment_message.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.android.scope.scope
 
 class AlarmsFragment : BaseModuleFragment() {
 
@@ -37,7 +42,6 @@ class AlarmsFragment : BaseModuleFragment() {
             TypeMessage.REQUEST -> {"Заказ пропуска"}
         }
 
-        val topText = resources.getText(R.string.crash).toString()
         this.initTopHeader(topText = topText, arrowVisibility = true, view = view)
 
         discButton.setOnClickListener {
@@ -47,9 +51,16 @@ class AlarmsFragment : BaseModuleFragment() {
 
 
     private fun sendEmail() {
+        if(discText.text.toString() == "") return
         viewModel.getUseLogin().observe(this.viewLifecycleOwner, Observer {
-            GMailSender("test123test123qwert1@gmail.com", "test123test123")
-                .sendMail("${topText}", discText.text.toString(), "ithi663@gmail.com")
+            lifecycleScope.launch(Dispatchers.IO) {
+                GMailSender("test123test123qwert1@gmail.com", "test123test123")
+                    .sendMail("$it: ${topText}", discText.text.toString()+".", "2660103@bk.ru")
+                delay(1000)
+                withContext(Dispatchers.Main) {
+                    discText.setText("")
+                }
+            }
         })
     }
 }

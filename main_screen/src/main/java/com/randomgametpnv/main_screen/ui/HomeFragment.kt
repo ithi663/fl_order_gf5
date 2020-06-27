@@ -32,13 +32,14 @@ class HomeFragment : BaseModuleFragment() {
 
         requireActivity().checkAndAskForBatteryOptimization()
         requireActivity().checkPermissions()
+
         requireActivity().checkSipService (
             "tesst",
             "xxx27146",
             "sip.antisip.com"
         )
-
 /*
+
         requireActivity().checkSipService (
             "kyjw",
             "hh6a",

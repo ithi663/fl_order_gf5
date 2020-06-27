@@ -24,7 +24,7 @@
         android:id="@+id/include13"
         layout="@layout/main_footer"
         android:layout_width="0dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_height="@dimen/footer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
