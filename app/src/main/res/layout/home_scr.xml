@@ -27,22 +27,21 @@
         android:format24Hour="hh:mm"
         android:textColor="@color/yellow_text_color"
         android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/toPayTextVIew"
         app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="@+id/footer"
         app:layout_constraintTop_toTopOf="@+id/footer" />
 
 
-    <TextClock
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:format12Hour="EEEE\ndd MMMM, yyyy "
-        android:textColor="@color/white_text"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="@+id/footer"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
+<!--    <TextClock-->
+<!--        android:id="@+id/textView2"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="24dp"-->
+<!--        android:format12Hour="EEEE\ndd MMMM, yyyy "-->
+<!--        android:textColor="@color/white_text"-->
+<!--        android:textSize="18sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/textView3"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/footer"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/textView3" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

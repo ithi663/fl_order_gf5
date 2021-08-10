@@ -61,4 +61,5 @@ dependencies {
     implementation lifecycle_runtime
     implementation coroutines_dependencies.values()
     implementation retrofit_dependencies.values()
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
 }

@@ -33,8 +33,6 @@ class GraphFragment : BaseModuleFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         return inflater.inflate(R.layout.fragment_graph, container, false)
     }
 
@@ -114,7 +112,7 @@ class GraphFragment : BaseModuleFragment() {
 
         val array = counterDataUi.date.map {
             index +=1
-            DataPoint(it.date, it.value.toDouble())
+            DataPoint(it.date, it.value)
         }.toTypedArray()
 
         val graphLine = LineGraphSeries(array)

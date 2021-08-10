@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CountersNet {
 
-    suspend fun getColdCater(header: String, typeOfEnergy: TypeOfEnergy): Flow<ApiCall<List<CounterData>>>
+    suspend fun getColdCater(header: String, typeOfEnergy: TypeOfEnergy, start: String, end: String): Flow<ApiCall<List<CounterData>>>
 }

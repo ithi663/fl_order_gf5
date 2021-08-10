@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="19 C"
+        android:text=""
         android:textColor="@color/white_text"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/header"

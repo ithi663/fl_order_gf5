@@ -7,4 +7,5 @@ dependencies {
     implementation project(":common_value_objects")
     kapt room_compiler
     api room_dependencies.values()
+    kapt 'org.xerial:sqlite-jdbc:3.34.0'
 }

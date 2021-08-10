@@ -4,13 +4,13 @@ package com.randomgametpnv.counters.entities
 import com.google.gson.annotations.SerializedName
 
 data class FlatDetectorItem(@SerializedName("measure")
-                            val measure: Int = 0,
+                            val measure: Float = 0f,
                             @SerializedName("stamp")
                             val stamp: String = "",
                             @SerializedName("id")
                             val id: Int = 0,
                             @SerializedName("value")
-                            val value: Int = 0)
+                            val value: Float = 0f)
 
 
 data class CounterData(@SerializedName("meter_type_id")
@@ -38,13 +38,13 @@ data class CounterData(@SerializedName("meter_type_id")
                        @SerializedName("correction")
                        val correction: String = "",
                        @SerializedName("value")
-                       val value: Int = 0)
+                       val value: Float = 0f)
 
 
 data class MeterDataItem(@SerializedName("day")
                          val day: String = "",
                          @SerializedName("value")
-                         val value: Int = 0)
+                         val value: Double = 0.0)
 
 
 data class MeterTypeItem(@SerializedName("unit")

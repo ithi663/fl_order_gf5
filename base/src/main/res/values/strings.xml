@@ -22,7 +22,7 @@
     <string name="plumber">Сантехник</string>
     <string name="delivery">Доставка продуктов</string>
     <string name="taxi_call">Вызвать такси</string>
-    <string name="cr_call">Позвонить консьержу</string>
+    <string name="cr_call">Прачечьная</string>
 
     <string name="resource_text">Данные \n о потребляемых \n ресурсах</string>
 

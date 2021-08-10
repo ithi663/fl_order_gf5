@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.randomgametpnv.base.initTopHeader
 import com.randomgametpnv.services.R
@@ -31,9 +32,14 @@ class ServicesFragment : BaseModuleFragment() {
 
         electricianButton.setOnClickListener {navigateToSpecialist(SpecialistType.ELECTRICIAN.name)}
         plumberButton.setOnClickListener {navigateToSpecialist(SpecialistType.PLUMBER.name)}
-        cleaningButton.setOnClickListener {navigateToSpecialist(SpecialistType.CLEANING.name)}
+        cleaningButton.setOnClickListener {showToast("Сервис временно недоступен")}
+        deliveryButton.setOnClickListener { showToast("Сервис временно недоступен") }
     }
 
+
+    fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
+    }
 
     private fun navigateToSpecialist(data: String) {
         val action

@@ -6,5 +6,5 @@ import retrofit2.http.*
 interface CountersApi {
 
     @GET("client/my-counter/{energy}")
-    suspend fun callColdWaterCounter(@Header("Authorization") header: String, @Path("energy") energy: String): List<CounterData>
+    suspend fun callColdWaterCounter(@Header("Authorization") header: String, @Path("energy") energy: String, @Query("start") start: String, @Query("end") end: String): List<CounterData>
 }
